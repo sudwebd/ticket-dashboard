@@ -1,0 +1,293 @@
+openapi: 3.1.0
+info:
+  title: Support Ticket Dashboard — Bulk API
+  description: >
+    Bulk data endpoint for the Calyb connector and data view agents.
+    This API is NOT used by the frontend dashboard — the frontend uses the
+    separate paginated /tickets/page endpoint instead.
+
+    Authentication: Bearer token. Use key `calyb-key-002` for the Calyb
+    connector or `agent-key-003` for data view agents.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Local development
+
+security:
+  - BearerAuth: []
+
+paths:
+  /tickets:
+    get:
+      summary: Bulk ticket fetch
+      description: >
+        Returns all tickets matching the supplied filters in a single response.
+        All filter parameters are optional and combined with AND logic.
+        No pagination — use `created_after` / `created_before` to slice large
+        date ranges if needed.
+      operationId: getBulkTickets
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Filter by ticket status.
+          schema:
+            type: string
+            enum: [open, in_progress, resolved, closed]
+          example: open
+
+        - name: priority
+          in: query
+          required: false
+          description: Filter by priority level.
+          schema:
+            type: string
+            enum: [low, medium, high, critical]
+          example: critical
+
+        - name: category
+          in: query
+          required: false
+          description: Filter by ticket category.
+          schema:
+            type: string
+            enum: [bug, feature, billing, access, performance]
+          example: billing
+
+        - name: assigned_to
+          in: query
+          required: false
+          description: Exact match on developer name.
+          schema:
+            type: string
+          example: "Alice Chen"
+
+        - name: unassigned
+          in: query
+          required: false
+          description: >
+            When true, return only tickets where `assigned_to` is null.
+            Mutually exclusive with `assigned_to`.
+          schema:
+            type: boolean
+          example: true
+
+        - name: created_after
+          in: query
+          required: false
+          description: >
+            Return tickets created at or after this datetime.
+            ISO 8601 format, e.g. `2025-03-01T00:00:00+00:00`.
+          schema:
+            type: string
+            format: date-time
+          example: "2025-03-01T00:00:00+00:00"
+
+        - name: created_before
+          in: query
+          required: false
+          description: >
+            Return tickets created at or before this datetime.
+            ISO 8601 format, e.g. `2025-03-31T23:59:59+00:00`.
+          schema:
+            type: string
+            format: date-time
+          example: "2025-03-31T23:59:59+00:00"
+
+        - name: tag
+          in: query
+          required: false
+          description: Return only tickets whose `tags` list contains this value.
+          schema:
+            type: string
+            enum: [urgent, regression, customer-reported, needs-repro, blocked, quick-win]
+          example: urgent
+
+      responses:
+        "200":
+          description: Matching tickets returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkResponse"
+              examples:
+                open_critical:
+                  summary: Open critical tickets
+                  value:
+                    total: 11
+                    tickets:
+                      - id: "TKT-0012"
+                        title: "HTTP 500 on checkout when cart has 50+ items"
+                        description: "When a user adds more than 50 items..."
+                        status: open
+                        priority: critical
+                        category: bug
+                        assigned_to: "Alice Chen"
+                        created_at: "2025-03-28T14:22:10+00:00"
+                        updated_at: "2025-03-29T09:05:33+00:00"
+                        created_by: "Bob Patel"
+                        tags: ["urgent", "customer-reported"]
+
+        "401":
+          description: Missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDetail"
+              example:
+                detail: "Invalid API key"
+
+        "422":
+          description: Invalid query parameter value.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+
+  /health:
+    get:
+      summary: Health check
+      description: Returns server status and number of loaded tickets. No auth required.
+      operationId: getHealth
+      security: []
+      responses:
+        "200":
+          description: Server is healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  tickets_loaded:
+                    type: integer
+                    example: 200
+                required: [status, tickets_loaded]
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        Dummy API keys for testing:
+        - `calyb-key-002` — Calyb Connector (reader)
+        - `agent-key-003` — Data View Agent (reader)
+        - `dashboard-key-001` — Frontend Dashboard (admin, not for connector use)
+
+  schemas:
+    Ticket:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - status
+        - priority
+        - category
+        - assigned_to
+        - created_at
+        - updated_at
+        - created_by
+        - tags
+      properties:
+        id:
+          type: string
+          description: Unique ticket identifier.
+          pattern: "^TKT-\\d{4}$"
+          example: "TKT-0042"
+        title:
+          type: string
+          description: Short summary of the issue.
+          example: "HTTP 500 on checkout when cart has 50+ items"
+        description:
+          type: string
+          description: Full description — 3-4 sentences of detail including repro steps, context, or impact.
+          example: "When a user adds more than 50 items to their cart and proceeds to checkout..."
+        status:
+          type: string
+          enum: [open, in_progress, resolved, closed]
+          example: open
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+          example: critical
+        category:
+          type: string
+          enum: [bug, feature, billing, access, performance]
+          example: bug
+        assigned_to:
+          type: ["string", "null"]
+          description: Developer name, or null if unassigned.
+          example: "Alice Chen"
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 creation timestamp.
+          example: "2025-03-28T14:22:10.432100+00:00"
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 last-updated timestamp. Always >= created_at.
+          example: "2025-03-29T09:05:33.812400+00:00"
+        created_by:
+          type: string
+          description: Developer name of the ticket creator.
+          example: "Bob Patel"
+        tags:
+          type: array
+          items:
+            type: string
+            enum: [urgent, regression, customer-reported, needs-repro, blocked, quick-win]
+          description: Zero to two tags per ticket.
+          example: ["urgent", "customer-reported"]
+
+    BulkResponse:
+      type: object
+      required: [total, tickets]
+      properties:
+        total:
+          type: integer
+          description: Number of tickets in this response (equals the filtered count — no pagination).
+          example: 11
+        tickets:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ticket"
+
+    ErrorDetail:
+      type: object
+      required: [detail]
+      properties:
+        detail:
+          type: string
+          example: "Invalid API key"
+
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+
+    ValidationError:
+      type: object
+      required: [loc, msg, type]
+      properties:
+        loc:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+          example: ["query", "status"]
+        msg:
+          type: string
+          example: "Input should be 'open', 'in_progress', 'resolved' or 'closed'"
+        type:
+          type: string
+          example: "enum"
