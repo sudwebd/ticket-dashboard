@@ -5,8 +5,9 @@ import math
 from datetime import datetime, timezone
 from typing import Literal, Optional
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
 
 app = FastAPI(title="Support Ticket Dashboard API")
@@ -19,6 +20,23 @@ app.add_middleware(
 )
 
 _tickets: list[dict] = []
+
+# --- Dummy Auth ---
+
+API_KEYS = {
+    "dashboard-key-001": {"name": "Frontend Dashboard", "role": "admin"},
+    "calyb-key-002": {"name": "Calyb Connector", "role": "reader"},
+    "agent-key-003": {"name": "Data View Agent", "role": "reader"},
+}
+
+_bearer_scheme = HTTPBearer()
+
+
+def verify_token(credentials: HTTPAuthorizationCredentials = Depends(_bearer_scheme)):
+    token = credentials.credentials
+    if token not in API_KEYS:
+        raise HTTPException(status_code=401, detail="Invalid API key")
+    return API_KEYS[token]
 
 
 @app.on_event("startup")
@@ -106,6 +124,7 @@ def get_tickets_page(
     category: Optional[str] = None,
     assigned_to: Optional[str] = None,
     unassigned: Optional[bool] = None,
+    _auth: dict = Depends(verify_token),
 ):
     filtered = _filter_tickets(_tickets, status, priority, category, assigned_to, unassigned)
     total = len(filtered)
@@ -131,6 +150,7 @@ def get_tickets_bulk(
     created_after: Optional[str] = None,
     created_before: Optional[str] = None,
     tag: Optional[str] = None,
+    _auth: dict = Depends(verify_token),
 ):
     result = _filter_tickets(_tickets, status, priority, category, assigned_to, unassigned)
     if created_after:
@@ -145,7 +165,7 @@ def get_tickets_bulk(
 
 
 @app.get("/tickets/{ticket_id}", response_model=Ticket)
-def get_ticket(ticket_id: str):
+def get_ticket(ticket_id: str, _auth: dict = Depends(verify_token)):
     for t in _tickets:
         if t["id"] == ticket_id:
             return t
@@ -153,7 +173,7 @@ def get_ticket(ticket_id: str):
 
 
 @app.post("/tickets/{ticket_id}/assign")
-def assign_ticket(ticket_id: str, req: AssignRequest):
+def assign_ticket(ticket_id: str, req: AssignRequest, _auth: dict = Depends(verify_token)):
     for t in _tickets:
         if t["id"] == ticket_id:
             t["assigned_to"] = req.assigned_to
@@ -171,6 +191,7 @@ def assign_ticket(ticket_id: str, req: AssignRequest):
 def update_status(
     ticket_id: str,
     status: Literal["open", "in_progress", "resolved", "closed"] = Query(...),
+    _auth: dict = Depends(verify_token),
 ):
     for t in _tickets:
         if t["id"] == ticket_id:
@@ -185,7 +206,7 @@ def update_status(
 
 
 @app.get("/summary", response_model=SummaryResponse)
-def get_summary():
+def get_summary(_auth: dict = Depends(verify_token)):
     from collections import Counter
 
     by_status = Counter(t["status"] for t in _tickets)
