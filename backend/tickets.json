@@ -1,0 +1,2913 @@
+[
+  {
+    "id": "TKT-0000",
+    "title": "Two-factor bypass when switching auth providers",
+    "description": "When the identity provider session expires, users entering the SSO login flow get caught in an infinite redirect loop between our app and the IdP. The browser eventually shows 'too many redirects' after approximately 15 cycles. Affects all SSO-configured organizations.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-03-24T04:23:26.565373+00:00",
+    "updated_at": "2026-03-30T06:30:38.305748+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0001",
+    "title": "Search results pagination skips page 3",
+    "description": "Users filling out the multi-step support request form lose all entered data when their session expires mid-process. The form does not warn about impending expiration or save draft state. This has caused significant user frustration.",
+    "status": "open",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-24T16:11:59.458404+00:00",
+    "updated_at": "2026-03-29T02:03:13.684057+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0002",
+    "title": "Service account tokens never expire despite policy",
+    "description": "When an admin changes a user's role from 'editor' to 'viewer', the change does not take effect until the user clears their browser cache or the server-side session cache expires (4 hours). During this window the user retains editor permissions.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-03-31T11:29:58.619870+00:00",
+    "updated_at": "2026-03-31T18:53:38.624747+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0003",
+    "title": "Support bulk ticket reassignment from list view",
+    "description": "Ticket descriptions currently only support plain text. Support agents frequently need to include code snippets, formatted logs, and structured reproduction steps. Markdown support would significantly improve ticket readability.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": null,
+    "created_at": "2026-03-28T01:28:41.812105+00:00",
+    "updated_at": "2026-03-28T13:38:32.684537+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "blocked",
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0004",
+    "title": "VAT calculation wrong for EU customers",
+    "description": "Discount code SAVE20 returns 'invalid code' at checkout despite being active in the promotions dashboard. The code was created on Feb 1st with no expiration date. Testing confirms it fails for all plan types. Approximately 50 customers have reported this issue.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-04-01T02:23:41.342404+00:00",
+    "updated_at": "2026-04-02T00:13:59.353962+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "customer-reported",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0005",
+    "title": "Add custom field support for ticket metadata",
+    "description": "The legal team requires ticket exports in PDF format with company branding for compliance audits. Currently they screenshot the UI or copy-paste into Word documents. A native PDF export would save approximately 4 hours per monthly audit.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-25T23:10:37.282166+00:00",
+    "updated_at": "2026-03-27T08:37:13.034438+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0006",
+    "title": "Service account tokens never expire despite policy",
+    "description": "When an admin changes a user's role from 'editor' to 'viewer', the change does not take effect until the user clears their browser cache or the server-side session cache expires (4 hours). During this window the user retains editor permissions.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-22T23:43:09.728958+00:00",
+    "updated_at": "2026-03-27T14:29:28.555401+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0007",
+    "title": "Background job queue backed up 2 hours during peak",
+    "description": "After migrating from Redis 6 to Redis 7, the cache miss rate jumped from 5% to 40%. Investigation shows the serialization format changed and existing cached entries are being treated as misses. A cache warm-up script is needed post-migration.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-22T02:35:29.403754+00:00",
+    "updated_at": "2026-03-23T21:03:38.113291+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0008",
+    "title": "Deactivated user retains API key access for 24h",
+    "description": "When a team member is removed from an organization, their previously created shared links remain active. These links continue to provide access to ticket data even though the user no longer has an account. There is no mechanism to bulk-revoke links by user.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-29T10:12:51.248408+00:00",
+    "updated_at": "2026-03-29T21:16:17.834383+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0009",
+    "title": "Password reset email contains broken link",
+    "description": "The dark mode toggle in user preferences works within the current tab but reverts to light mode when a new tab is opened. The preference is stored in sessionStorage instead of localStorage, causing it to not persist.",
+    "status": "open",
+    "priority": "high",
+    "category": "bug",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-26T03:37:35.503811+00:00",
+    "updated_at": "2026-03-28T05:57:51.443344+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0010",
+    "title": "Guest link shares expose internal ticket comments",
+    "description": "The OAuth token refresh flow does not validate the original scope grant. A token initially issued with read-only scope can be refreshed to request read-write scope without user consent. This was identified by an external security researcher.",
+    "status": "open",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-29T17:32:45.894605+00:00",
+    "updated_at": "2026-03-30T11:37:24.054617+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "quick-win",
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0011",
+    "title": "Elasticsearch queries timing out for wildcard searches",
+    "description": "Generating the monthly analytics report for accounts with over 500MB of ticket data causes the worker process to run out of memory (OOM killed). The report builder loads the entire dataset into memory. Streaming or chunked processing is needed.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-09T05:50:35.196348+00:00",
+    "updated_at": "2026-03-13T02:27:50.406921+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "blocked",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0012",
+    "title": "VAT calculation wrong for EU customers",
+    "description": "Customer (account #AC-4892) reports being charged $299 twice on March 5th for their annual Pro plan renewal. Stripe shows two successful charges: ch_3NkL9x and ch_3NkLBw, 4 seconds apart. The customer's card was charged $598 total. Immediate refund of duplicate charge needed.",
+    "status": "in_progress",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-23T04:46:07.342955+00:00",
+    "updated_at": "2026-03-25T22:03:47.860997+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0013",
+    "title": "Password reset email contains broken link",
+    "description": "The dark mode toggle in user preferences works within the current tab but reverts to light mode when a new tab is opened. The preference is stored in sessionStorage instead of localStorage, causing it to not persist.",
+    "status": "in_progress",
+    "priority": "low",
+    "category": "bug",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-04-01T16:42:19.831409+00:00",
+    "updated_at": "2026-04-01T23:49:44.430484+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "needs-repro",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0014",
+    "title": "Database connection pool exhausted at 200 concurrent users",
+    "description": "After migrating from Redis 6 to Redis 7, the cache miss rate jumped from 5% to 40%. Investigation shows the serialization format changed and existing cached entries are being treated as misses. A cache warm-up script is needed post-migration.",
+    "status": "resolved",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-14T08:13:49.547511+00:00",
+    "updated_at": "2026-04-01T11:17:49.003463+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0015",
+    "title": "Support multiple email addresses per contact",
+    "description": "Our team uses Slack as the primary communication channel. We need ticket notifications (new, assigned, status change) pushed to a configurable Slack channel. Currently the team manually checks the dashboard every 30 minutes and misses urgent tickets.",
+    "status": "open",
+    "priority": "low",
+    "category": "feature",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-04-03T09:25:44.108083+00:00",
+    "updated_at": "2026-04-03T09:58:55.452612+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0016",
+    "title": "Coupon stacking bypass allows negative totals",
+    "description": "Customers using 3D Secure enabled cards cannot update their payment method. The update flow redirects to the bank's 3DS page but the callback URL returns a 404. This affects approximately 15% of our European customer base.",
+    "status": "open",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-22T03:21:51.579254+00:00",
+    "updated_at": "2026-03-25T03:24:29.963929+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0017",
+    "title": "Date picker shows wrong month on first open",
+    "description": "On Safari 17.2, clicking the login button does nothing \u2014 no error, no redirect, no console output. The issue does not reproduce on Chrome or Firefox. Multiple customers have reported being unable to access their accounts from macOS Sonoma.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-04-01T20:50:30.429664+00:00",
+    "updated_at": "2026-04-01T23:12:21.159322+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0018",
+    "title": "Support bulk ticket reassignment from list view",
+    "description": "Customers have requested a public-facing status page that shows current system health and any ongoing incidents. This would reduce inbound support tickets during outages by approximately 30% based on industry benchmarks.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-30T23:54:36.267637+00:00",
+    "updated_at": "2026-04-02T19:43:53.019763+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0019",
+    "title": "CSV export truncates rows after 10,000 records",
+    "description": "Navigating through search results, page 3 is completely skipped. Clicking 'Next' from page 2 goes directly to page 4. The URL parameter updates correctly but the API returns page 4 data. Affects all search queries with more than 2 pages.",
+    "status": "closed",
+    "priority": "high",
+    "category": "bug",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-09T00:47:02.803466+00:00",
+    "updated_at": "2026-03-21T09:32:25.545289+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0020",
+    "title": "API rate limiter counts OPTIONS as requests",
+    "description": "The dark mode toggle in user preferences works within the current tab but reverts to light mode when a new tab is opened. The preference is stored in sessionStorage instead of localStorage, causing it to not persist.",
+    "status": "open",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-30T12:00:04.679776+00:00",
+    "updated_at": "2026-04-02T03:26:15.080965+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0021",
+    "title": "HTTP 500 on checkout when cart has 50+ items",
+    "description": "Webhook delivery is configured to retry 3 times but actually retries 7 times. Each retry doubles the delay, causing some webhooks to be delivered up to 2 hours after the initial failure. This is overwhelming receiving services with duplicate events.",
+    "status": "open",
+    "priority": "low",
+    "category": "bug",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-30T02:28:25.769251+00:00",
+    "updated_at": "2026-04-01T04:42:48.998358+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0022",
+    "title": "Drag-and-drop reorder saves in wrong sequence",
+    "description": "Users filling out the multi-step support request form lose all entered data when their session expires mid-process. The form does not warn about impending expiration or save draft state. This has caused significant user frustration.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "bug",
+    "assigned_to": null,
+    "created_at": "2026-04-02T13:00:36.686834+00:00",
+    "updated_at": "2026-04-02T22:13:49.241907+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0023",
+    "title": "Invoice PDF shows previous company address",
+    "description": "EU customers in Germany, France, and Netherlands are being charged 19% VAT regardless of their actual country rate. France should be 20%, Netherlands 21%. This affects approximately 340 active subscriptions and may have compliance implications.",
+    "status": "open",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-30T01:32:41.181505+00:00",
+    "updated_at": "2026-04-02T00:44:12.564284+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0024",
+    "title": "Add Slack integration for ticket notifications",
+    "description": "Customers have requested a public-facing status page that shows current system health and any ongoing incidents. This would reduce inbound support tickets during outages by approximately 30% based on industry benchmarks.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-21T09:26:17.953129+00:00",
+    "updated_at": "2026-03-29T12:44:05.873256+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0025",
+    "title": "File upload returns 413 but file is under limit",
+    "description": "Scheduled reports configured for specific timezones are being sent at the wrong time. The offset appears to be inverted \u2014 UTC+5 users receive reports as if they were UTC-5. This started after the daylight saving time transition.",
+    "status": "open",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-22T04:24:36.861939+00:00",
+    "updated_at": "2026-03-24T03:00:50.916703+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "customer-reported",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0026",
+    "title": "Search index 4 hours stale after bulk import",
+    "description": "Following the v2.4.1 deployment on March 3rd, API p99 latency increased from 800ms to 3.2 seconds. The regression correlates with the new audit logging middleware that performs a synchronous database write on every request. Moving to async logging should resolve this.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-06T12:58:50.493056+00:00",
+    "updated_at": "2026-03-13T22:24:05.222185+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "blocked",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0027",
+    "title": "Create public-facing status page",
+    "description": "Power users create the same complex filter combinations repeatedly. Saved filters would allow them to bookmark frequent queries like 'my open critical tickets' or 'unassigned billing issues this week' and access them with one click.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "feature",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-30T19:08:47.219890+00:00",
+    "updated_at": "2026-04-03T03:26:54.675829+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0028",
+    "title": "Deactivated user retains API key access for 24h",
+    "description": "When a team member is removed from an organization, their previously created shared links remain active. These links continue to provide access to ticket data even though the user no longer has an account. There is no mechanism to bulk-revoke links by user.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "access",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-05T02:23:25.851003+00:00",
+    "updated_at": "2026-03-21T07:34:33.472471+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "urgent",
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0029",
+    "title": "CSV export truncates rows after 10,000 records",
+    "description": "Navigating through search results, page 3 is completely skipped. Clicking 'Next' from page 2 goes directly to page 4. The URL parameter updates correctly but the API returns page 4 data. Affects all search queries with more than 2 pages.",
+    "status": "closed",
+    "priority": "critical",
+    "category": "bug",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-17T00:26:17.351021+00:00",
+    "updated_at": "2026-03-19T05:53:22.854038+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0030",
+    "title": "Page load time degrades linearly with filter count",
+    "description": "Thumbnail generation for uploaded images runs synchronously on the main API thread, blocking all other requests for 2-3 seconds per image. This should be offloaded to a background worker queue to prevent request handling degradation.",
+    "status": "open",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": null,
+    "created_at": "2026-03-23T13:43:33.541221+00:00",
+    "updated_at": "2026-04-03T04:59:14.013535+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0031",
+    "title": "Database connection pool exhausted at 200 concurrent users",
+    "description": "Thumbnail generation for uploaded images runs synchronously on the main API thread, blocking all other requests for 2-3 seconds per image. This should be offloaded to a background worker queue to prevent request handling degradation.",
+    "status": "closed",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-12T09:31:07.036626+00:00",
+    "updated_at": "2026-03-30T02:57:54.396891+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0032",
+    "title": "Team member removal does not revoke shared links",
+    "description": "When an admin changes a user's role from 'editor' to 'viewer', the change does not take effect until the user clears their browser cache or the server-side session cache expires (4 hours). During this window the user retains editor permissions.",
+    "status": "open",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-23T01:28:18.989310+00:00",
+    "updated_at": "2026-03-26T13:12:29.180450+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0033",
+    "title": "Date picker shows wrong month on first open",
+    "description": "The dark mode toggle in user preferences works within the current tab but reverts to light mode when a new tab is opened. The preference is stored in sessionStorage instead of localStorage, causing it to not persist.",
+    "status": "open",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-30T14:03:32.556275+00:00",
+    "updated_at": "2026-04-01T03:32:35.805800+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0034",
+    "title": "Search results pagination skips page 3",
+    "description": "File uploads under the 10MB limit are being rejected with a 413 Payload Too Large error. The actual threshold appears to be around 8.2MB. The upload progress bar reaches 100% before the error appears, confusing users.",
+    "status": "closed",
+    "priority": "low",
+    "category": "bug",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-31T05:47:42.745115+00:00",
+    "updated_at": "2026-04-02T14:39:28.900870+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0035",
+    "title": "Image thumbnail generation blocks main thread",
+    "description": "The main dashboard page takes over 12 seconds to render when the account has more than 1,000 tickets. Profiling shows the bottleneck is a non-indexed COUNT query that runs for each status category. Adding composite indexes should reduce this to under 500ms.",
+    "status": "open",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": null,
+    "created_at": "2026-04-02T20:55:52.196339+00:00",
+    "updated_at": "2026-04-03T04:41:06.694475+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "quick-win",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0036",
+    "title": "Create mobile-responsive ticket view",
+    "description": "Support managers need to reassign tickets in bulk when a team member goes on leave. Currently each ticket must be opened individually and reassigned. With 40+ tickets per developer, this takes over an hour of manual work.",
+    "status": "open",
+    "priority": "high",
+    "category": "feature",
+    "assigned_to": null,
+    "created_at": "2026-03-30T02:22:09.783279+00:00",
+    "updated_at": "2026-04-02T06:17:09.376181+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "customer-reported",
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0037",
+    "title": "Support multiple email addresses per contact",
+    "description": "Different customer segments require different metadata on tickets (e.g., enterprise needs contract ID, retail needs order number). Custom fields would eliminate the current workaround of stuffing metadata into the description field.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-23T02:51:37.589266+00:00",
+    "updated_at": "2026-03-30T02:53:11.523475+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0038",
+    "title": "Cache miss rate jumped from 5% to 40% after migration",
+    "description": "After migrating from Redis 6 to Redis 7, the cache miss rate jumped from 5% to 40%. Investigation shows the serialization format changed and existing cached entries are being treated as misses. A cache warm-up script is needed post-migration.",
+    "status": "open",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-29T23:34:09.479303+00:00",
+    "updated_at": "2026-04-02T00:43:24.021302+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0039",
+    "title": "CORS error when embedding dashboard in iframe",
+    "description": "Users filling out the multi-step support request form lose all entered data when their session expires mid-process. The form does not warn about impending expiration or save draft state. This has caused significant user frustration.",
+    "status": "open",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-23T00:51:17.124916+00:00",
+    "updated_at": "2026-03-30T17:52:01.306199+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0040",
+    "title": "Date picker shows wrong month on first open",
+    "description": "Webhook delivery is configured to retry 3 times but actually retries 7 times. Each retry doubles the delay, causing some webhooks to be delivered up to 2 hours after the initial failure. This is overwhelming receiving services with duplicate events.",
+    "status": "open",
+    "priority": "critical",
+    "category": "bug",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-28T02:49:30.750371+00:00",
+    "updated_at": "2026-03-29T08:34:39.560914+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0041",
+    "title": "Support Markdown in ticket descriptions",
+    "description": "The legal team requires ticket exports in PDF format with company branding for compliance audits. Currently they screenshot the UI or copy-paste into Word documents. A native PDF export would save approximately 4 hours per monthly audit.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "feature",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-31T07:06:07.874975+00:00",
+    "updated_at": "2026-03-31T20:36:00.840041+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0042",
+    "title": "Prorated charge incorrect when switching mid-cycle",
+    "description": "A refund of $49.99 was processed for order ORD-2024-7156 on March 8th. The Stripe dashboard confirms the refund but the customer's account balance in our system still shows the original charge. The billing history page has no record of the refund.",
+    "status": "closed",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-18T13:25:48.299555+00:00",
+    "updated_at": "2026-04-02T16:44:21.983994+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "quick-win",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0043",
+    "title": "Stripe webhook missing for subscription cancellation",
+    "description": "EU customers in Germany, France, and Netherlands are being charged 19% VAT regardless of their actual country rate. France should be 20%, Netherlands 21%. This affects approximately 340 active subscriptions and may have compliance implications.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-20T23:47:41.336935+00:00",
+    "updated_at": "2026-04-01T07:57:09.265587+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "needs-repro",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0044",
+    "title": "Add SLA timer display on ticket cards",
+    "description": "Support managers need to reassign tickets in bulk when a team member goes on leave. Currently each ticket must be opened individually and reassigned. With 40+ tickets per developer, this takes over an hour of manual work.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": null,
+    "created_at": "2026-03-30T00:25:21.453783+00:00",
+    "updated_at": "2026-03-30T15:17:13.566879+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0045",
+    "title": "HTTP 500 on checkout when cart has 50+ items",
+    "description": "Users filling out the multi-step support request form lose all entered data when their session expires mid-process. The form does not warn about impending expiration or save draft state. This has caused significant user frustration.",
+    "status": "open",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": null,
+    "created_at": "2026-03-27T23:17:40.110430+00:00",
+    "updated_at": "2026-04-02T09:41:02.612530+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "quick-win",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0046",
+    "title": "Redis memory usage growing 500MB/day from orphaned keys",
+    "description": "Thumbnail generation for uploaded images runs synchronously on the main API thread, blocking all other requests for 2-3 seconds per image. This should be offloaded to a background worker queue to prevent request handling degradation.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": null,
+    "created_at": "2026-03-23T22:34:43.331262+00:00",
+    "updated_at": "2026-04-01T22:43:42.024645+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "quick-win",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0047",
+    "title": "Two-factor bypass when switching auth providers",
+    "description": "The OAuth token refresh flow does not validate the original scope grant. A token initially issued with read-only scope can be refreshed to request read-write scope without user consent. This was identified by an external security researcher.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-22T19:52:04.277002+00:00",
+    "updated_at": "2026-03-31T06:37:19.629228+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0048",
+    "title": "Image thumbnail generation blocks main thread",
+    "description": "Following the v2.4.1 deployment on March 3rd, API p99 latency increased from 800ms to 3.2 seconds. The regression correlates with the new audit logging middleware that performs a synchronous database write on every request. Moving to async logging should resolve this.",
+    "status": "in_progress",
+    "priority": "critical",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-04-02T07:38:19.297609+00:00",
+    "updated_at": "2026-04-03T08:05:21.854990+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0049",
+    "title": "Implement saved search filters per user",
+    "description": "Ticket descriptions currently only support plain text. Support agents frequently need to include code snippets, formatted logs, and structured reproduction steps. Markdown support would significantly improve ticket readability.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": null,
+    "created_at": "2026-03-22T04:17:09.620798+00:00",
+    "updated_at": "2026-03-25T06:50:49.690839+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0050",
+    "title": "Two-factor bypass when switching auth providers",
+    "description": "Users with the 'viewer' role can navigate directly to /admin/settings and view sensitive configuration including API keys and webhook secrets. The sidebar correctly hides the admin link but no server-side authorization check exists on the settings endpoint.",
+    "status": "open",
+    "priority": "critical",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-04-02T12:47:21.366988+00:00",
+    "updated_at": "2026-04-03T06:10:43.311911+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0051",
+    "title": "Cache miss rate jumped from 5% to 40% after migration",
+    "description": "During rolling deployments, all connected WebSocket clients attempt to reconnect simultaneously, creating a thundering herd that overwhelms the new pods. The reconnection uses a fixed 1-second delay instead of exponential backoff with jitter.",
+    "status": "in_progress",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-21T05:23:55.253840+00:00",
+    "updated_at": "2026-03-31T09:36:52.520852+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "blocked",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0052",
+    "title": "OAuth scope escalation via token refresh flow",
+    "description": "The OAuth token refresh flow does not validate the original scope grant. A token initially issued with read-only scope can be refreshed to request read-write scope without user consent. This was identified by an external security researcher.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-26T10:22:38.425250+00:00",
+    "updated_at": "2026-04-03T00:31:17.372530+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0053",
+    "title": "Stripe webhook missing for subscription cancellation",
+    "description": "Discount code SAVE20 returns 'invalid code' at checkout despite being active in the promotions dashboard. The code was created on Feb 1st with no expiration date. Testing confirms it fails for all plan types. Approximately 50 customers have reported this issue.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-13T23:10:42.718446+00:00",
+    "updated_at": "2026-03-30T07:27:10.855583+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0054",
+    "title": "Create mobile-responsive ticket view",
+    "description": "Customers have requested a public-facing status page that shows current system health and any ongoing incidents. This would reduce inbound support tickets during outages by approximately 30% based on industry benchmarks.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-22T14:23:15.469572+00:00",
+    "updated_at": "2026-03-23T20:30:52.139434+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "needs-repro",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0055",
+    "title": "Payment method update fails with 3D Secure cards",
+    "description": "Customers using 3D Secure enabled cards cannot update their payment method. The update flow redirects to the bank's 3DS page but the callback URL returns a 404. This affects approximately 15% of our European customer base.",
+    "status": "resolved",
+    "priority": "critical",
+    "category": "billing",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-18T08:21:37.974503+00:00",
+    "updated_at": "2026-03-25T09:08:20.075653+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0056",
+    "title": "CSV export takes 45 seconds for 10k rows",
+    "description": "Thumbnail generation for uploaded images runs synchronously on the main API thread, blocking all other requests for 2-3 seconds per image. This should be offloaded to a background worker queue to prevent request handling degradation.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-20T13:15:17.802605+00:00",
+    "updated_at": "2026-03-25T05:48:35.720989+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0057",
+    "title": "Invoice PDF shows previous company address",
+    "description": "Customer (account #AC-4892) reports being charged $299 twice on March 5th for their annual Pro plan renewal. Stripe shows two successful charges: ch_3NkL9x and ch_3NkLBw, 4 seconds apart. The customer's card was charged $598 total. Immediate refund of duplicate charge needed.",
+    "status": "open",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": null,
+    "created_at": "2026-03-26T03:32:13.050463+00:00",
+    "updated_at": "2026-03-30T11:01:17.661747+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0058",
+    "title": "Create public-facing status page",
+    "description": "Our team uses Slack as the primary communication channel. We need ticket notifications (new, assigned, status change) pushed to a configurable Slack channel. Currently the team manually checks the dashboard every 30 minutes and misses urgent tickets.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-24T12:39:57.573221+00:00",
+    "updated_at": "2026-03-25T10:55:20.655890+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0059",
+    "title": "Add SLA timer display on ticket cards",
+    "description": "Several enterprise customers have requested two-factor authentication as a requirement for their security compliance. Currently we only support password-based auth which does not meet SOC 2 requirements for some of our clients.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-04T14:16:13.393537+00:00",
+    "updated_at": "2026-03-15T02:43:14.537059+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0060",
+    "title": "Add audit log for ticket field changes",
+    "description": "Different customer segments require different metadata on tickets (e.g., enterprise needs contract ID, retail needs order number). Custom fields would eliminate the current workaround of stuffing metadata into the description field.",
+    "status": "open",
+    "priority": "low",
+    "category": "feature",
+    "assigned_to": null,
+    "created_at": "2026-03-26T23:47:41.095615+00:00",
+    "updated_at": "2026-03-28T10:16:54.325105+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0061",
+    "title": "Refund issued but balance not updated in dashboard",
+    "description": "Customer upgraded from Basic ($29/mo) to Premium ($99/mo) three days ago. Payment was processed successfully (ORD-2024-8821) but premium features like advanced analytics and API access remain locked. Manual feature flag toggle is the current workaround.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-25T14:32:51.315385+00:00",
+    "updated_at": "2026-03-28T07:01:13.780507+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0062",
+    "title": "Create public-facing status page",
+    "description": "Support managers need to reassign tickets in bulk when a team member goes on leave. Currently each ticket must be opened individually and reassigned. With 40+ tickets per developer, this takes over an hour of manual work.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-08T10:33:10.724890+00:00",
+    "updated_at": "2026-03-31T04:15:27.726512+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0063",
+    "title": "Discount code SAVE20 not applying at checkout",
+    "description": "Discount code SAVE20 returns 'invalid code' at checkout despite being active in the promotions dashboard. The code was created on Feb 1st with no expiration date. Testing confirms it fails for all plan types. Approximately 50 customers have reported this issue.",
+    "status": "open",
+    "priority": "critical",
+    "category": "billing",
+    "assigned_to": null,
+    "created_at": "2026-03-22T10:18:22.050246+00:00",
+    "updated_at": "2026-03-27T06:19:35.484883+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "quick-win",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0064",
+    "title": "Dark mode toggle does not persist across tabs",
+    "description": "Navigating through search results, page 3 is completely skipped. Clicking 'Next' from page 2 goes directly to page 4. The URL parameter updates correctly but the API returns page 4 data. Affects all search queries with more than 2 pages.",
+    "status": "resolved",
+    "priority": "critical",
+    "category": "bug",
+    "assigned_to": null,
+    "created_at": "2026-03-27T01:08:51.192389+00:00",
+    "updated_at": "2026-03-31T13:29:41.980198+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0065",
+    "title": "OAuth scope escalation via token refresh flow",
+    "description": "Guest share links for tickets expose the internal comments tab which may contain sensitive information about other customers or internal processes. The share link should only show the ticket description and status, not the full comment thread.",
+    "status": "open",
+    "priority": "critical",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-03-26T06:06:02.140522+00:00",
+    "updated_at": "2026-03-30T22:32:38.092508+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "quick-win",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0066",
+    "title": "Search index 4 hours stale after bulk import",
+    "description": "Following the v2.4.1 deployment on March 3rd, API p99 latency increased from 800ms to 3.2 seconds. The regression correlates with the new audit logging middleware that performs a synchronous database write on every request. Moving to async logging should resolve this.",
+    "status": "open",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-04-01T01:26:37.280291+00:00",
+    "updated_at": "2026-04-01T01:35:59.837237+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "blocked",
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0067",
+    "title": "Implement saved search filters per user",
+    "description": "The legal team requires ticket exports in PDF format with company branding for compliance audits. Currently they screenshot the UI or copy-paste into Word documents. A native PDF export would save approximately 4 hours per monthly audit.",
+    "status": "open",
+    "priority": "high",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-24T20:53:01.349055+00:00",
+    "updated_at": "2026-03-28T23:04:27.733637+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0068",
+    "title": "Guest link shares expose internal ticket comments",
+    "description": "Guest share links for tickets expose the internal comments tab which may contain sensitive information about other customers or internal processes. The share link should only show the ticket description and status, not the full comment thread.",
+    "status": "closed",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-03-29T12:22:50.278737+00:00",
+    "updated_at": "2026-03-31T16:50:37.823479+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "customer-reported",
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0069",
+    "title": "Image thumbnail generation blocks main thread",
+    "description": "Under load testing at 200 concurrent users, the application exhausts the database connection pool (max 20 connections) and subsequent requests queue for up to 30 seconds. The pool size needs to be increased and connection timeout reduced.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": null,
+    "created_at": "2026-04-02T22:27:06.543873+00:00",
+    "updated_at": "2026-04-03T06:32:14.962050+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0070",
+    "title": "Create mobile-responsive ticket view",
+    "description": "Power users create the same complex filter combinations repeatedly. Saved filters would allow them to bookmark frequent queries like 'my open critical tickets' or 'unassigned billing issues this week' and access them with one click.",
+    "status": "resolved",
+    "priority": "high",
+    "category": "feature",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-11T13:13:03.243404+00:00",
+    "updated_at": "2026-03-24T18:30:53.960140+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0071",
+    "title": "SSO login loop when IdP session expires",
+    "description": "When a team member is removed from an organization, their previously created shared links remain active. These links continue to provide access to ticket data even though the user no longer has an account. There is no mechanism to bulk-revoke links by user.",
+    "status": "closed",
+    "priority": "low",
+    "category": "access",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-19T17:48:08.869192+00:00",
+    "updated_at": "2026-03-24T20:59:43.774557+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0072",
+    "title": "CORS error when embedding dashboard in iframe",
+    "description": "The dark mode toggle in user preferences works within the current tab but reverts to light mode when a new tab is opened. The preference is stored in sessionStorage instead of localStorage, causing it to not persist.",
+    "status": "open",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-28T21:17:35.101074+00:00",
+    "updated_at": "2026-03-29T02:13:50.715676+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0073",
+    "title": "Add SLA timer display on ticket cards",
+    "description": "Customers have requested a public-facing status page that shows current system health and any ongoing incidents. This would reduce inbound support tickets during outages by approximately 30% based on industry benchmarks.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-14T18:19:46.426758+00:00",
+    "updated_at": "2026-03-22T22:00:31.262829+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "customer-reported",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0074",
+    "title": "Team member removal does not revoke shared links",
+    "description": "When a team member is removed from an organization, their previously created shared links remain active. These links continue to provide access to ticket data even though the user no longer has an account. There is no mechanism to bulk-revoke links by user.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-21T12:08:49.177031+00:00",
+    "updated_at": "2026-03-23T01:59:42.960254+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0075",
+    "title": "SSO login loop when IdP session expires",
+    "description": "When a team member is removed from an organization, their previously created shared links remain active. These links continue to provide access to ticket data even though the user no longer has an account. There is no mechanism to bulk-revoke links by user.",
+    "status": "open",
+    "priority": "low",
+    "category": "access",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-22T17:07:57.836090+00:00",
+    "updated_at": "2026-04-02T20:52:42.461426+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0076",
+    "title": "Add custom field support for ticket metadata",
+    "description": "Ticket descriptions currently only support plain text. Support agents frequently need to include code snippets, formatted logs, and structured reproduction steps. Markdown support would significantly improve ticket readability.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-20T18:57:31.611283+00:00",
+    "updated_at": "2026-03-23T09:38:52.486802+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "quick-win",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0077",
+    "title": "Page load time degrades linearly with filter count",
+    "description": "The main dashboard page takes over 12 seconds to render when the account has more than 1,000 tickets. Profiling shows the bottleneck is a non-indexed COUNT query that runs for each status category. Adding composite indexes should reduce this to under 500ms.",
+    "status": "open",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-27T09:14:42.655974+00:00",
+    "updated_at": "2026-03-29T09:29:50.902453+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "blocked",
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0078",
+    "title": "Database connection pool exhausted at 200 concurrent users",
+    "description": "Generating the monthly analytics report for accounts with over 500MB of ticket data causes the worker process to run out of memory (OOM killed). The report builder loads the entire dataset into memory. Streaming or chunked processing is needed.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-29T05:06:08.867082+00:00",
+    "updated_at": "2026-04-03T09:24:30.126615+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "needs-repro",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0079",
+    "title": "Background job queue backed up 2 hours during peak",
+    "description": "Following the v2.4.1 deployment on March 3rd, API p99 latency increased from 800ms to 3.2 seconds. The regression correlates with the new audit logging middleware that performs a synchronous database write on every request. Moving to async logging should resolve this.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-29T03:45:04.953341+00:00",
+    "updated_at": "2026-03-31T19:11:59.417604+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0080",
+    "title": "Payment method update fails with 3D Secure cards",
+    "description": "Customer (account #AC-4892) reports being charged $299 twice on March 5th for their annual Pro plan renewal. Stripe shows two successful charges: ch_3NkL9x and ch_3NkLBw, 4 seconds apart. The customer's card was charged $598 total. Immediate refund of duplicate charge needed.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-27T03:07:31.714111+00:00",
+    "updated_at": "2026-04-01T10:47:43.566754+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "regression",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0081",
+    "title": "Credit note not generated after partial refund",
+    "description": "Customer was granted a 14-day trial extension via the admin panel but the billing portal still shows the original trial end date. The customer received an email confirming the extension. The mismatch is causing confusion and the customer may be charged early.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-08T22:34:26.510966+00:00",
+    "updated_at": "2026-04-02T07:43:12.658600+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "urgent",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0082",
+    "title": "Login fails silently on Safari 17.2",
+    "description": "On Safari 17.2, clicking the login button does nothing \u2014 no error, no redirect, no console output. The issue does not reproduce on Chrome or Firefox. Multiple customers have reported being unable to access their accounts from macOS Sonoma.",
+    "status": "in_progress",
+    "priority": "critical",
+    "category": "bug",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-28T10:01:50.256327+00:00",
+    "updated_at": "2026-03-31T02:43:31.278088+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0083",
+    "title": "Webhook delivery retries exceed configured max",
+    "description": "Exporting tickets to CSV works for small datasets but silently truncates at exactly 10,000 rows. The file appears complete with headers and no error indication. Customers with large accounts are receiving incomplete exports.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-18T13:24:19.052147+00:00",
+    "updated_at": "2026-03-21T06:24:49.666891+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "needs-repro",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0084",
+    "title": "Two-factor bypass when switching auth providers",
+    "description": "Users with the 'viewer' role can navigate directly to /admin/settings and view sensitive configuration including API keys and webhook secrets. The sidebar correctly hides the admin link but no server-side authorization check exists on the settings endpoint.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-28T01:25:45.673014+00:00",
+    "updated_at": "2026-04-02T20:14:05.757864+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0085",
+    "title": "Tax exempt status not carrying over to new invoices",
+    "description": "All invoices generated after March 1st show the company's previous address (123 Old Street) instead of the current address (456 New Avenue). The billing settings page shows the correct address. This appears to be a caching issue in the PDF generation service.",
+    "status": "open",
+    "priority": "critical",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-21T00:36:11.782356+00:00",
+    "updated_at": "2026-03-27T04:16:18.079911+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0086",
+    "title": "GraphQL N+1 queries on ticket list with comments",
+    "description": "During rolling deployments, all connected WebSocket clients attempt to reconnect simultaneously, creating a thundering herd that overwhelms the new pods. The reconnection uses a fixed 1-second delay instead of exponential backoff with jitter.",
+    "status": "closed",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-25T14:49:00.913429+00:00",
+    "updated_at": "2026-03-25T19:29:26.418133+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0087",
+    "title": "Payment method update fails with 3D Secure cards",
+    "description": "All invoices generated after March 1st show the company's previous address (123 Old Street) instead of the current address (456 New Avenue). The billing settings page shows the correct address. This appears to be a caching issue in the PDF generation service.",
+    "status": "resolved",
+    "priority": "high",
+    "category": "billing",
+    "assigned_to": null,
+    "created_at": "2026-03-16T07:13:56.518837+00:00",
+    "updated_at": "2026-03-30T09:55:50.558047+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "customer-reported",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0088",
+    "title": "Two-factor bypass when switching auth providers",
+    "description": "When the identity provider session expires, users entering the SSO login flow get caught in an infinite redirect loop between our app and the IdP. The browser eventually shows 'too many redirects' after approximately 15 cycles. Affects all SSO-configured organizations.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-22T18:09:49.572238+00:00",
+    "updated_at": "2026-04-02T08:38:08.426144+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0089",
+    "title": "Session expires mid-form causing data loss",
+    "description": "Exporting tickets to CSV works for small datasets but silently truncates at exactly 10,000 rows. The file appears complete with headers and no error indication. Customers with large accounts are receiving incomplete exports.",
+    "status": "open",
+    "priority": "low",
+    "category": "bug",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-28T16:14:09.607151+00:00",
+    "updated_at": "2026-04-02T06:02:25.080011+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "blocked",
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0090",
+    "title": "Database connection pool exhausted at 200 concurrent users",
+    "description": "After running a bulk ticket import (5,000+ tickets), the search index takes 4 hours to fully update. During this window, newly imported tickets do not appear in search results. The indexer processes records sequentially rather than in batches.",
+    "status": "open",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-24T01:00:03.958350+00:00",
+    "updated_at": "2026-03-28T22:28:45.088357+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0091",
+    "title": "SAML assertion replay accepted within 5-minute window",
+    "description": "When an admin changes a user's role from 'editor' to 'viewer', the change does not take effect until the user clears their browser cache or the server-side session cache expires (4 hours). During this window the user retains editor permissions.",
+    "status": "open",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-22T15:40:29.623917+00:00",
+    "updated_at": "2026-03-23T17:20:10.596675+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0092",
+    "title": "Add keyboard shortcuts for common actions",
+    "description": "Several enterprise customers have requested two-factor authentication as a requirement for their security compliance. Currently we only support password-based auth which does not meet SOC 2 requirements for some of our clients.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-29T03:49:13.705106+00:00",
+    "updated_at": "2026-03-29T17:41:29.171554+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0093",
+    "title": "Team member removal does not revoke shared links",
+    "description": "Guest share links for tickets expose the internal comments tab which may contain sensitive information about other customers or internal processes. The share link should only show the ticket description and status, not the full comment thread.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-15T10:21:15.182247+00:00",
+    "updated_at": "2026-03-27T19:22:31.103829+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0094",
+    "title": "Dark mode toggle does not persist across tabs",
+    "description": "Exporting tickets to CSV works for small datasets but silently truncates at exactly 10,000 rows. The file appears complete with headers and no error indication. Customers with large accounts are receiving incomplete exports.",
+    "status": "open",
+    "priority": "critical",
+    "category": "bug",
+    "assigned_to": null,
+    "created_at": "2026-03-31T04:57:08.029845+00:00",
+    "updated_at": "2026-04-01T11:36:48.933274+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "quick-win",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0095",
+    "title": "Trial extension not reflected in billing portal",
+    "description": "All invoices generated after March 1st show the company's previous address (123 Old Street) instead of the current address (456 New Avenue). The billing settings page shows the correct address. This appears to be a caching issue in the PDF generation service.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-19T19:30:54.627148+00:00",
+    "updated_at": "2026-03-20T07:02:31.557160+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0096",
+    "title": "Prorated charge incorrect when switching mid-cycle",
+    "description": "A refund of $49.99 was processed for order ORD-2024-7156 on March 8th. The Stripe dashboard confirms the refund but the customer's account balance in our system still shows the original charge. The billing history page has no record of the refund.",
+    "status": "closed",
+    "priority": "high",
+    "category": "billing",
+    "assigned_to": null,
+    "created_at": "2026-03-13T22:09:18.900995+00:00",
+    "updated_at": "2026-03-15T04:02:53.560144+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0097",
+    "title": "Background job queue backed up 2 hours during peak",
+    "description": "The main dashboard page takes over 12 seconds to render when the account has more than 1,000 tickets. Profiling shows the bottleneck is a non-indexed COUNT query that runs for each status category. Adding composite indexes should reduce this to under 500ms.",
+    "status": "closed",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": null,
+    "created_at": "2026-03-28T03:07:43.875568+00:00",
+    "updated_at": "2026-03-28T10:51:10.841841+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0098",
+    "title": "Page load time degrades linearly with filter count",
+    "description": "Generating the monthly analytics report for accounts with over 500MB of ticket data causes the worker process to run out of memory (OOM killed). The report builder loads the entire dataset into memory. Streaming or chunked processing is needed.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-16T21:38:57.196526+00:00",
+    "updated_at": "2026-03-22T16:21:56.489028+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "urgent",
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0099",
+    "title": "Background job queue backed up 2 hours during peak",
+    "description": "The main dashboard page takes over 12 seconds to render when the account has more than 1,000 tickets. Profiling shows the bottleneck is a non-indexed COUNT query that runs for each status category. Adding composite indexes should reduce this to under 500ms.",
+    "status": "open",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": null,
+    "created_at": "2026-04-01T01:12:50.431754+00:00",
+    "updated_at": "2026-04-01T08:56:30.365783+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0100",
+    "title": "Discount code SAVE20 not applying at checkout",
+    "description": "Discount code SAVE20 returns 'invalid code' at checkout despite being active in the promotions dashboard. The code was created on Feb 1st with no expiration date. Testing confirms it fails for all plan types. Approximately 50 customers have reported this issue.",
+    "status": "open",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": null,
+    "created_at": "2026-03-28T14:24:08.259581+00:00",
+    "updated_at": "2026-03-31T09:45:49.795143+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "blocked",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0101",
+    "title": "Invoice PDF shows previous company address",
+    "description": "Customers using 3D Secure enabled cards cannot update their payment method. The update flow redirects to the bank's 3DS page but the callback URL returns a 404. This affects approximately 15% of our European customer base.",
+    "status": "open",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-25T06:27:12.991322+00:00",
+    "updated_at": "2026-03-31T04:53:01.408302+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0102",
+    "title": "Search index 4 hours stale after bulk import",
+    "description": "Under load testing at 200 concurrent users, the application exhausts the database connection pool (max 20 connections) and subsequent requests queue for up to 30 seconds. The pool size needs to be increased and connection timeout reduced.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-21T04:28:48.591562+00:00",
+    "updated_at": "2026-03-29T06:44:56.386638+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0103",
+    "title": "Create public-facing status page",
+    "description": "Ticket descriptions currently only support plain text. Support agents frequently need to include code snippets, formatted logs, and structured reproduction steps. Markdown support would significantly improve ticket readability.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-27T01:34:40.598739+00:00",
+    "updated_at": "2026-03-27T19:15:29.522089+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "quick-win",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0104",
+    "title": "Team member removal does not revoke shared links",
+    "description": "The OAuth token refresh flow does not validate the original scope grant. A token initially issued with read-only scope can be refreshed to request read-write scope without user consent. This was identified by an external security researcher.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-03-29T17:57:50.463177+00:00",
+    "updated_at": "2026-03-31T17:20:14.441516+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0105",
+    "title": "Support bulk ticket reassignment from list view",
+    "description": "Support managers need to reassign tickets in bulk when a team member goes on leave. Currently each ticket must be opened individually and reassigned. With 40+ tickets per developer, this takes over an hour of manual work.",
+    "status": "open",
+    "priority": "critical",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-04-02T05:11:36.645337+00:00",
+    "updated_at": "2026-04-02T18:25:52.277449+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0106",
+    "title": "Annual billing toggle shows wrong monthly price",
+    "description": "Customer was granted a 14-day trial extension via the admin panel but the billing portal still shows the original trial end date. The customer received an email confirming the extension. The mismatch is causing confusion and the customer may be charged early.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-29T13:02:09.912245+00:00",
+    "updated_at": "2026-04-02T20:10:23.547275+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0107",
+    "title": "Create mobile-responsive ticket view",
+    "description": "Support managers need to reassign tickets in bulk when a team member goes on leave. Currently each ticket must be opened individually and reassigned. With 40+ tickets per developer, this takes over an hour of manual work.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": null,
+    "created_at": "2026-03-27T17:49:45.855744+00:00",
+    "updated_at": "2026-03-30T02:33:12.046371+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0108",
+    "title": "Password policy not enforced on API-created accounts",
+    "description": "Users with the 'viewer' role can navigate directly to /admin/settings and view sensitive configuration including API keys and webhook secrets. The sidebar correctly hides the admin link but no server-side authorization check exists on the settings endpoint.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-23T00:51:13.020118+00:00",
+    "updated_at": "2026-03-30T00:19:19.186421+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0109",
+    "title": "Webhook delivery retries exceed configured max",
+    "description": "Navigating through search results, page 3 is completely skipped. Clicking 'Next' from page 2 goes directly to page 4. The URL parameter updates correctly but the API returns page 4 data. Affects all search queries with more than 2 pages.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-08T09:32:38.014105+00:00",
+    "updated_at": "2026-03-10T05:07:31.159445+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0110",
+    "title": "Audit log missing entries for permission changes",
+    "description": "When an admin changes a user's role from 'editor' to 'viewer', the change does not take effect until the user clears their browser cache or the server-side session cache expires (4 hours). During this window the user retains editor permissions.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-03-29T07:30:25.928815+00:00",
+    "updated_at": "2026-04-02T08:05:50.153105+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "urgent",
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0111",
+    "title": "Search results pagination skips page 3",
+    "description": "Password reset emails contain a link pointing to the old domain name. Clicking the link results in a DNS resolution failure. This has been blocking all password resets since the domain migration on February 28th.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "bug",
+    "assigned_to": null,
+    "created_at": "2026-03-21T04:48:13.320037+00:00",
+    "updated_at": "2026-03-29T06:29:09.757784+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0112",
+    "title": "Team member removal does not revoke shared links",
+    "description": "Guest share links for tickets expose the internal comments tab which may contain sensitive information about other customers or internal processes. The share link should only show the ticket description and status, not the full comment thread.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-03-24T23:52:25.175767+00:00",
+    "updated_at": "2026-03-25T10:13:39.067813+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "urgent",
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0113",
+    "title": "Create public-facing status page",
+    "description": "Ticket descriptions currently only support plain text. Support agents frequently need to include code snippets, formatted logs, and structured reproduction steps. Markdown support would significantly improve ticket readability.",
+    "status": "closed",
+    "priority": "high",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-30T21:27:22.730666+00:00",
+    "updated_at": "2026-03-31T12:38:03.711952+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "quick-win",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0114",
+    "title": "Customer charged twice for annual plan renewal",
+    "description": "Customer was granted a 14-day trial extension via the admin panel but the billing portal still shows the original trial end date. The customer received an email confirming the extension. The mismatch is causing confusion and the customer may be charged early.",
+    "status": "resolved",
+    "priority": "high",
+    "category": "billing",
+    "assigned_to": null,
+    "created_at": "2026-03-08T15:22:28.923211+00:00",
+    "updated_at": "2026-03-09T03:00:11.766534+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0115",
+    "title": "Plan upgrade not activating premium features",
+    "description": "Customers using 3D Secure enabled cards cannot update their payment method. The update flow redirects to the bank's 3DS page but the callback URL returns a 404. This affects approximately 15% of our European customer base.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-20T23:12:07.003328+00:00",
+    "updated_at": "2026-04-01T05:18:48.290034+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0116",
+    "title": "Tax exempt status not carrying over to new invoices",
+    "description": "A refund of $49.99 was processed for order ORD-2024-7156 on March 8th. The Stripe dashboard confirms the refund but the customer's account balance in our system still shows the original charge. The billing history page has no record of the refund.",
+    "status": "open",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-22T07:20:55.815797+00:00",
+    "updated_at": "2026-03-25T00:09:28.165773+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0117",
+    "title": "Credit note not generated after partial refund",
+    "description": "Customer upgraded from Basic ($29/mo) to Premium ($99/mo) three days ago. Payment was processed successfully (ORD-2024-8821) but premium features like advanced analytics and API access remain locked. Manual feature flag toggle is the current workaround.",
+    "status": "open",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-24T07:26:44.383429+00:00",
+    "updated_at": "2026-03-26T17:11:22.639716+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0118",
+    "title": "Date picker shows wrong month on first open",
+    "description": "Password reset emails contain a link pointing to the old domain name. Clicking the link results in a DNS resolution failure. This has been blocking all password resets since the domain migration on February 28th.",
+    "status": "open",
+    "priority": "high",
+    "category": "bug",
+    "assigned_to": null,
+    "created_at": "2026-03-21T04:12:39.176431+00:00",
+    "updated_at": "2026-03-27T08:30:22.072757+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "needs-repro",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0119",
+    "title": "Team member removal does not revoke shared links",
+    "description": "When a team member is removed from an organization, their previously created shared links remain active. These links continue to provide access to ticket data even though the user no longer has an account. There is no mechanism to bulk-revoke links by user.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-21T07:12:56.929747+00:00",
+    "updated_at": "2026-03-29T15:07:50.868467+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "urgent",
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0120",
+    "title": "Discount code SAVE20 not applying at checkout",
+    "description": "Discount code SAVE20 returns 'invalid code' at checkout despite being active in the promotions dashboard. The code was created on Feb 1st with no expiration date. Testing confirms it fails for all plan types. Approximately 50 customers have reported this issue.",
+    "status": "open",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": null,
+    "created_at": "2026-03-22T20:23:41.904069+00:00",
+    "updated_at": "2026-03-30T00:15:32.794071+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0121",
+    "title": "Coupon stacking bypass allows negative totals",
+    "description": "EU customers in Germany, France, and Netherlands are being charged 19% VAT regardless of their actual country rate. France should be 20%, Netherlands 21%. This affects approximately 340 active subscriptions and may have compliance implications.",
+    "status": "closed",
+    "priority": "high",
+    "category": "billing",
+    "assigned_to": null,
+    "created_at": "2026-03-07T05:19:44.662316+00:00",
+    "updated_at": "2026-03-15T23:46:24.504768+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "regression",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0122",
+    "title": "Customer charged twice for annual plan renewal",
+    "description": "EU customers in Germany, France, and Netherlands are being charged 19% VAT regardless of their actual country rate. France should be 20%, Netherlands 21%. This affects approximately 340 active subscriptions and may have compliance implications.",
+    "status": "resolved",
+    "priority": "high",
+    "category": "billing",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-15T02:38:00.729536+00:00",
+    "updated_at": "2026-03-28T19:49:38.260070+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "blocked",
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0123",
+    "title": "CORS error when embedding dashboard in iframe",
+    "description": "File uploads under the 10MB limit are being rejected with a 413 Payload Too Large error. The actual threshold appears to be around 8.2MB. The upload progress bar reaches 100% before the error appears, confusing users.",
+    "status": "open",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-26T02:57:19.410668+00:00",
+    "updated_at": "2026-03-26T16:11:47.044225+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "quick-win",
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0124",
+    "title": "Implement ticket merge for duplicates",
+    "description": "Different customer segments require different metadata on tickets (e.g., enterprise needs contract ID, retail needs order number). Custom fields would eliminate the current workaround of stuffing metadata into the description field.",
+    "status": "resolved",
+    "priority": "high",
+    "category": "feature",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-24T11:49:27.752362+00:00",
+    "updated_at": "2026-04-02T15:51:44.893154+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "quick-win",
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0125",
+    "title": "CSV export truncates rows after 10,000 records",
+    "description": "The dark mode toggle in user preferences works within the current tab but reverts to light mode when a new tab is opened. The preference is stored in sessionStorage instead of localStorage, causing it to not persist.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "bug",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-24T15:20:30.921231+00:00",
+    "updated_at": "2026-03-25T13:26:37.825037+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "customer-reported",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0126",
+    "title": "Add custom field support for ticket metadata",
+    "description": "Different customer segments require different metadata on tickets (e.g., enterprise needs contract ID, retail needs order number). Custom fields would eliminate the current workaround of stuffing metadata into the description field.",
+    "status": "open",
+    "priority": "low",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-31T07:43:35.680794+00:00",
+    "updated_at": "2026-03-31T13:36:00.956382+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "blocked",
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0127",
+    "title": "CSV export truncates rows after 10,000 records",
+    "description": "Exporting tickets to CSV works for small datasets but silently truncates at exactly 10,000 rows. The file appears complete with headers and no error indication. Customers with large accounts are receiving incomplete exports.",
+    "status": "open",
+    "priority": "high",
+    "category": "bug",
+    "assigned_to": null,
+    "created_at": "2026-03-29T05:16:01.794162+00:00",
+    "updated_at": "2026-04-02T14:29:49.405349+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0128",
+    "title": "Service account tokens never expire despite policy",
+    "description": "When a team member is removed from an organization, their previously created shared links remain active. These links continue to provide access to ticket data even though the user no longer has an account. There is no mechanism to bulk-revoke links by user.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-25T22:41:05.927331+00:00",
+    "updated_at": "2026-03-27T22:41:34.938038+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0129",
+    "title": "Redis memory usage growing 500MB/day from orphaned keys",
+    "description": "Thumbnail generation for uploaded images runs synchronously on the main API thread, blocking all other requests for 2-3 seconds per image. This should be offloaded to a background worker queue to prevent request handling degradation.",
+    "status": "open",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-23T17:18:49.277493+00:00",
+    "updated_at": "2026-03-29T03:19:51.008915+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0130",
+    "title": "Elasticsearch queries timing out for wildcard searches",
+    "description": "After running a bulk ticket import (5,000+ tickets), the search index takes 4 hours to fully update. During this window, newly imported tickets do not appear in search results. The indexer processes records sequentially rather than in batches.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-08T06:28:51.028412+00:00",
+    "updated_at": "2026-03-26T22:12:40.134175+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0131",
+    "title": "Export tickets to PDF with company branding",
+    "description": "Customers have requested a public-facing status page that shows current system health and any ongoing incidents. This would reduce inbound support tickets during outages by approximately 30% based on industry benchmarks.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-21T08:51:53.273987+00:00",
+    "updated_at": "2026-04-01T23:30:20.519004+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0132",
+    "title": "Add two-factor authentication option",
+    "description": "Support managers need to reassign tickets in bulk when a team member goes on leave. Currently each ticket must be opened individually and reassigned. With 40+ tickets per developer, this takes over an hour of manual work.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": null,
+    "created_at": "2026-03-31T08:24:00.067624+00:00",
+    "updated_at": "2026-04-02T23:42:42.094855+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0133",
+    "title": "Password reset email contains broken link",
+    "description": "Webhook delivery is configured to retry 3 times but actually retries 7 times. Each retry doubles the delay, causing some webhooks to be delivered up to 2 hours after the initial failure. This is overwhelming receiving services with duplicate events.",
+    "status": "open",
+    "priority": "high",
+    "category": "bug",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-24T14:47:05.592429+00:00",
+    "updated_at": "2026-03-24T16:01:47.052010+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0134",
+    "title": "Implement saved search filters per user",
+    "description": "The legal team requires ticket exports in PDF format with company branding for compliance audits. Currently they screenshot the UI or copy-paste into Word documents. A native PDF export would save approximately 4 hours per monthly audit.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-31T03:47:25.808124+00:00",
+    "updated_at": "2026-04-01T03:53:56.480783+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0135",
+    "title": "Customer charged twice for annual plan renewal",
+    "description": "EU customers in Germany, France, and Netherlands are being charged 19% VAT regardless of their actual country rate. France should be 20%, Netherlands 21%. This affects approximately 340 active subscriptions and may have compliance implications.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-16T14:11:34.551125+00:00",
+    "updated_at": "2026-03-29T10:55:01.264909+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0136",
+    "title": "SSO login loop when IdP session expires",
+    "description": "Users with the 'viewer' role can navigate directly to /admin/settings and view sensitive configuration including API keys and webhook secrets. The sidebar correctly hides the admin link but no server-side authorization check exists on the settings endpoint.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-20T20:21:40.077881+00:00",
+    "updated_at": "2026-03-26T04:13:42.410469+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0137",
+    "title": "Role change not reflected until manual cache clear",
+    "description": "The IP allowlist configured in organization security settings is enforced on web endpoints but not on mobile API endpoints (/api/mobile/*). A user connecting from a blocked IP can still access all data through the mobile app. Discovered during a security audit.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-03-10T20:06:38.268037+00:00",
+    "updated_at": "2026-03-28T04:13:35.290747+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "quick-win",
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0138",
+    "title": "API rate limiter counts OPTIONS as requests",
+    "description": "Password reset emails contain a link pointing to the old domain name. Clicking the link results in a DNS resolution failure. This has been blocking all password resets since the domain migration on February 28th.",
+    "status": "open",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-24T21:47:30.117936+00:00",
+    "updated_at": "2026-03-30T23:07:28.713590+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0139",
+    "title": "Role change not reflected until manual cache clear",
+    "description": "Guest share links for tickets expose the internal comments tab which may contain sensitive information about other customers or internal processes. The share link should only show the ticket description and status, not the full comment thread.",
+    "status": "closed",
+    "priority": "low",
+    "category": "access",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-07T22:04:33.470772+00:00",
+    "updated_at": "2026-03-21T14:46:18.049644+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0140",
+    "title": "Timezone offset breaks scheduled reports",
+    "description": "On Safari 17.2, clicking the login button does nothing \u2014 no error, no redirect, no console output. The issue does not reproduce on Chrome or Firefox. Multiple customers have reported being unable to access their accounts from macOS Sonoma.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-25T07:31:09.488149+00:00",
+    "updated_at": "2026-04-01T15:38:06.036713+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0141",
+    "title": "Stripe webhook missing for subscription cancellation",
+    "description": "All invoices generated after March 1st show the company's previous address (123 Old Street) instead of the current address (456 New Avenue). The billing settings page shows the correct address. This appears to be a caching issue in the PDF generation service.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-23T11:21:18.915707+00:00",
+    "updated_at": "2026-04-01T07:15:02.670072+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0142",
+    "title": "Invoice PDF shows previous company address",
+    "description": "All invoices generated after March 1st show the company's previous address (123 Old Street) instead of the current address (456 New Avenue). The billing settings page shows the correct address. This appears to be a caching issue in the PDF generation service.",
+    "status": "closed",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-24T15:44:33.755769+00:00",
+    "updated_at": "2026-03-29T01:01:28.061081+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0143",
+    "title": "Guest link shares expose internal ticket comments",
+    "description": "Users with the 'viewer' role can navigate directly to /admin/settings and view sensitive configuration including API keys and webhook secrets. The sidebar correctly hides the admin link but no server-side authorization check exists on the settings endpoint.",
+    "status": "open",
+    "priority": "low",
+    "category": "access",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-20T12:27:59.187374+00:00",
+    "updated_at": "2026-03-21T13:38:01.110687+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0144",
+    "title": "Dashboard takes 12 seconds to load with 1000+ tickets",
+    "description": "Following the v2.4.1 deployment on March 3rd, API p99 latency increased from 800ms to 3.2 seconds. The regression correlates with the new audit logging middleware that performs a synchronous database write on every request. Moving to async logging should resolve this.",
+    "status": "resolved",
+    "priority": "critical",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-11T01:18:01.524891+00:00",
+    "updated_at": "2026-03-12T15:07:19.884490+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0145",
+    "title": "Search index 4 hours stale after bulk import",
+    "description": "Following the v2.4.1 deployment on March 3rd, API p99 latency increased from 800ms to 3.2 seconds. The regression correlates with the new audit logging middleware that performs a synchronous database write on every request. Moving to async logging should resolve this.",
+    "status": "open",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-28T06:40:53.186305+00:00",
+    "updated_at": "2026-03-31T13:39:27.299673+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0146",
+    "title": "Support bulk ticket reassignment from list view",
+    "description": "Power users create the same complex filter combinations repeatedly. Saved filters would allow them to bookmark frequent queries like 'my open critical tickets' or 'unassigned billing issues this week' and access them with one click.",
+    "status": "closed",
+    "priority": "low",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-07T02:05:39.975449+00:00",
+    "updated_at": "2026-03-28T07:49:40.061609+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0147",
+    "title": "Cache miss rate jumped from 5% to 40% after migration",
+    "description": "Following the v2.4.1 deployment on March 3rd, API p99 latency increased from 800ms to 3.2 seconds. The regression correlates with the new audit logging middleware that performs a synchronous database write on every request. Moving to async logging should resolve this.",
+    "status": "open",
+    "priority": "critical",
+    "category": "performance",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-22T13:17:43.469693+00:00",
+    "updated_at": "2026-04-02T06:48:41.598784+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0148",
+    "title": "WebSocket reconnect storm during rolling deploys",
+    "description": "During rolling deployments, all connected WebSocket clients attempt to reconnect simultaneously, creating a thundering herd that overwhelms the new pods. The reconnection uses a fixed 1-second delay instead of exponential backoff with jitter.",
+    "status": "closed",
+    "priority": "critical",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-17T23:50:49.544281+00:00",
+    "updated_at": "2026-04-01T00:59:04.989113+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0149",
+    "title": "Implement ticket merge for duplicates",
+    "description": "Several enterprise customers have requested two-factor authentication as a requirement for their security compliance. Currently we only support password-based auth which does not meet SOC 2 requirements for some of our clients.",
+    "status": "closed",
+    "priority": "high",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-23T15:59:58.359237+00:00",
+    "updated_at": "2026-03-28T17:27:10.249651+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0150",
+    "title": "Service account tokens never expire despite policy",
+    "description": "The OAuth token refresh flow does not validate the original scope grant. A token initially issued with read-only scope can be refreshed to request read-write scope without user consent. This was identified by an external security researcher.",
+    "status": "open",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-27T03:12:40.686540+00:00",
+    "updated_at": "2026-04-02T04:38:26.949342+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0151",
+    "title": "Redis memory usage growing 500MB/day from orphaned keys",
+    "description": "Following the v2.4.1 deployment on March 3rd, API p99 latency increased from 800ms to 3.2 seconds. The regression correlates with the new audit logging middleware that performs a synchronous database write on every request. Moving to async logging should resolve this.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-22T04:51:01.551211+00:00",
+    "updated_at": "2026-03-31T15:20:30.754694+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0152",
+    "title": "Database connection pool exhausted at 200 concurrent users",
+    "description": "Generating the monthly analytics report for accounts with over 500MB of ticket data causes the worker process to run out of memory (OOM killed). The report builder loads the entire dataset into memory. Streaming or chunked processing is needed.",
+    "status": "open",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": null,
+    "created_at": "2026-04-01T04:31:12.946835+00:00",
+    "updated_at": "2026-04-01T23:39:50.088656+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0153",
+    "title": "Add SLA timer display on ticket cards",
+    "description": "Different customer segments require different metadata on tickets (e.g., enterprise needs contract ID, retail needs order number). Custom fields would eliminate the current workaround of stuffing metadata into the description field.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-27T00:35:47.125888+00:00",
+    "updated_at": "2026-03-31T10:40:38.171294+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0154",
+    "title": "Drag-and-drop reorder saves in wrong sequence",
+    "description": "When a user adds more than 50 items to their cart and proceeds to checkout, the server returns an HTTP 500 error. The checkout page shows a generic error message. This was first reported by a customer on March 12th and affects both web and mobile clients.",
+    "status": "in_progress",
+    "priority": "critical",
+    "category": "bug",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-04-02T22:00:13.521180+00:00",
+    "updated_at": "2026-04-02T23:07:40.744727+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0155",
+    "title": "Add SLA timer display on ticket cards",
+    "description": "Power users create the same complex filter combinations repeatedly. Saved filters would allow them to bookmark frequent queries like 'my open critical tickets' or 'unassigned billing issues this week' and access them with one click.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": null,
+    "created_at": "2026-03-22T01:08:31.522945+00:00",
+    "updated_at": "2026-03-30T00:52:54.091344+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0156",
+    "title": "Cache miss rate jumped from 5% to 40% after migration",
+    "description": "Thumbnail generation for uploaded images runs synchronously on the main API thread, blocking all other requests for 2-3 seconds per image. This should be offloaded to a background worker queue to prevent request handling degradation.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": null,
+    "created_at": "2026-04-01T16:42:27.569403+00:00",
+    "updated_at": "2026-04-02T13:35:49.145933+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0157",
+    "title": "CORS error when embedding dashboard in iframe",
+    "description": "File uploads under the 10MB limit are being rejected with a 413 Payload Too Large error. The actual threshold appears to be around 8.2MB. The upload progress bar reaches 100% before the error appears, confusing users.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-22T12:46:08.705000+00:00",
+    "updated_at": "2026-03-28T16:36:26.998690+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0158",
+    "title": "Trial extension not reflected in billing portal",
+    "description": "Customer was granted a 14-day trial extension via the admin panel but the billing portal still shows the original trial end date. The customer received an email confirming the extension. The mismatch is causing confusion and the customer may be charged early.",
+    "status": "open",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": null,
+    "created_at": "2026-03-30T10:20:01.709605+00:00",
+    "updated_at": "2026-03-31T10:32:34.618372+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0159",
+    "title": "Team member removal does not revoke shared links",
+    "description": "Users with the 'viewer' role can navigate directly to /admin/settings and view sensitive configuration including API keys and webhook secrets. The sidebar correctly hides the admin link but no server-side authorization check exists on the settings endpoint.",
+    "status": "open",
+    "priority": "low",
+    "category": "access",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-22T04:28:32.228154+00:00",
+    "updated_at": "2026-03-23T07:04:24.125426+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "needs-repro",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0160",
+    "title": "Create public-facing status page",
+    "description": "Power users create the same complex filter combinations repeatedly. Saved filters would allow them to bookmark frequent queries like 'my open critical tickets' or 'unassigned billing issues this week' and access them with one click.",
+    "status": "open",
+    "priority": "low",
+    "category": "feature",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-25T08:00:49.210249+00:00",
+    "updated_at": "2026-03-30T05:59:42.480537+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0161",
+    "title": "Report generation OOMs on datasets over 500MB",
+    "description": "Under load testing at 200 concurrent users, the application exhausts the database connection pool (max 20 connections) and subsequent requests queue for up to 30 seconds. The pool size needs to be increased and connection timeout reduced.",
+    "status": "resolved",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-17T09:14:32.129962+00:00",
+    "updated_at": "2026-03-26T20:23:49.674995+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0162",
+    "title": "Discount code SAVE20 not applying at checkout",
+    "description": "Customer was granted a 14-day trial extension via the admin panel but the billing portal still shows the original trial end date. The customer received an email confirming the extension. The mismatch is causing confusion and the customer may be charged early.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "billing",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-04-01T16:36:50.913550+00:00",
+    "updated_at": "2026-04-02T08:44:52.232422+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "customer-reported",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0163",
+    "title": "File upload returns 413 but file is under limit",
+    "description": "Password reset emails contain a link pointing to the old domain name. Clicking the link results in a DNS resolution failure. This has been blocking all password resets since the domain migration on February 28th.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": null,
+    "created_at": "2026-04-01T13:48:02.953484+00:00",
+    "updated_at": "2026-04-02T13:42:47.126771+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "blocked",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0164",
+    "title": "Add two-factor authentication option",
+    "description": "Customers have requested a public-facing status page that shows current system health and any ongoing incidents. This would reduce inbound support tickets during outages by approximately 30% based on industry benchmarks.",
+    "status": "in_progress",
+    "priority": "low",
+    "category": "feature",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-30T07:18:08.290254+00:00",
+    "updated_at": "2026-04-02T06:33:39.399446+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0165",
+    "title": "Support multiple email addresses per contact",
+    "description": "Our team uses Slack as the primary communication channel. We need ticket notifications (new, assigned, status change) pushed to a configurable Slack channel. Currently the team manually checks the dashboard every 30 minutes and misses urgent tickets.",
+    "status": "resolved",
+    "priority": "critical",
+    "category": "feature",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-12T17:36:41.792068+00:00",
+    "updated_at": "2026-03-25T17:20:15.960700+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "blocked",
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0166",
+    "title": "Support Markdown in ticket descriptions",
+    "description": "Different customer segments require different metadata on tickets (e.g., enterprise needs contract ID, retail needs order number). Custom fields would eliminate the current workaround of stuffing metadata into the description field.",
+    "status": "open",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-23T15:34:38.576380+00:00",
+    "updated_at": "2026-04-01T13:25:45.276870+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0167",
+    "title": "VAT calculation wrong for EU customers",
+    "description": "Customer was granted a 14-day trial extension via the admin panel but the billing portal still shows the original trial end date. The customer received an email confirming the extension. The mismatch is causing confusion and the customer may be charged early.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-22T02:30:49.546478+00:00",
+    "updated_at": "2026-03-28T07:43:13.433048+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0168",
+    "title": "OAuth scope escalation via token refresh flow",
+    "description": "When an admin changes a user's role from 'editor' to 'viewer', the change does not take effect until the user clears their browser cache or the server-side session cache expires (4 hours). During this window the user retains editor permissions.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-20T03:25:04.562250+00:00",
+    "updated_at": "2026-04-02T20:55:34.864716+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "customer-reported",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0169",
+    "title": "Export tickets to PDF with company branding",
+    "description": "The legal team requires ticket exports in PDF format with company branding for compliance audits. Currently they screenshot the UI or copy-paste into Word documents. A native PDF export would save approximately 4 hours per monthly audit.",
+    "status": "resolved",
+    "priority": "high",
+    "category": "feature",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-16T04:35:23.655540+00:00",
+    "updated_at": "2026-03-21T07:08:41.629794+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0170",
+    "title": "Cache miss rate jumped from 5% to 40% after migration",
+    "description": "Under load testing at 200 concurrent users, the application exhausts the database connection pool (max 20 connections) and subsequent requests queue for up to 30 seconds. The pool size needs to be increased and connection timeout reduced.",
+    "status": "closed",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-19T19:45:46.169037+00:00",
+    "updated_at": "2026-03-28T01:06:01.937679+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0171",
+    "title": "Plan upgrade not activating premium features",
+    "description": "All invoices generated after March 1st show the company's previous address (123 Old Street) instead of the current address (456 New Avenue). The billing settings page shows the correct address. This appears to be a caching issue in the PDF generation service.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-23T16:05:43.539083+00:00",
+    "updated_at": "2026-03-24T03:01:19.852535+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0172",
+    "title": "Guest link shares expose internal ticket comments",
+    "description": "When a user account is deactivated via the admin panel, their existing API keys remain functional for up to 24 hours. The key revocation runs as a background job that only executes once daily at midnight UTC. This creates a security window for terminated employees.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "access",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-17T15:11:31.444178+00:00",
+    "updated_at": "2026-03-19T11:23:27.344106+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0173",
+    "title": "Support multiple email addresses per contact",
+    "description": "Customers have requested a public-facing status page that shows current system health and any ongoing incidents. This would reduce inbound support tickets during outages by approximately 30% based on industry benchmarks.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-22T02:16:05.010410+00:00",
+    "updated_at": "2026-03-23T08:11:16.468522+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0174",
+    "title": "Background job queue backed up 2 hours during peak",
+    "description": "Generating the monthly analytics report for accounts with over 500MB of ticket data causes the worker process to run out of memory (OOM killed). The report builder loads the entire dataset into memory. Streaming or chunked processing is needed.",
+    "status": "closed",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-20T05:20:28.673030+00:00",
+    "updated_at": "2026-03-31T00:14:37.197607+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0175",
+    "title": "Viewer role can access admin settings via direct URL",
+    "description": "When a user account is deactivated via the admin panel, their existing API keys remain functional for up to 24 hours. The key revocation runs as a background job that only executes once daily at midnight UTC. This creates a security window for terminated employees.",
+    "status": "closed",
+    "priority": "low",
+    "category": "access",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-12T19:12:01.129251+00:00",
+    "updated_at": "2026-03-21T20:46:11.736256+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0176",
+    "title": "Dashboard takes 12 seconds to load with 1000+ tickets",
+    "description": "The main dashboard page takes over 12 seconds to render when the account has more than 1,000 tickets. Profiling shows the bottleneck is a non-indexed COUNT query that runs for each status category. Adding composite indexes should reduce this to under 500ms.",
+    "status": "open",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-21T12:41:44.532704+00:00",
+    "updated_at": "2026-03-25T09:32:24.872959+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0177",
+    "title": "API p99 latency spiked to 3.2s after v2.4.1 deploy",
+    "description": "After migrating from Redis 6 to Redis 7, the cache miss rate jumped from 5% to 40%. Investigation shows the serialization format changed and existing cached entries are being treated as misses. A cache warm-up script is needed post-migration.",
+    "status": "open",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-22T01:03:13.299128+00:00",
+    "updated_at": "2026-03-25T10:34:30.192675+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0178",
+    "title": "Guest link shares expose internal ticket comments",
+    "description": "The IP allowlist configured in organization security settings is enforced on web endpoints but not on mobile API endpoints (/api/mobile/*). A user connecting from a blocked IP can still access all data through the mobile app. Discovered during a security audit.",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": null,
+    "created_at": "2026-03-29T18:34:31.259211+00:00",
+    "updated_at": "2026-03-30T14:27:12.976790+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0179",
+    "title": "Add Slack integration for ticket notifications",
+    "description": "Power users create the same complex filter combinations repeatedly. Saved filters would allow them to bookmark frequent queries like 'my open critical tickets' or 'unassigned billing issues this week' and access them with one click.",
+    "status": "in_progress",
+    "priority": "low",
+    "category": "feature",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-21T09:24:27.763240+00:00",
+    "updated_at": "2026-03-26T10:01:04.149426+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0180",
+    "title": "Support bulk ticket reassignment from list view",
+    "description": "Customers have requested a public-facing status page that shows current system health and any ongoing incidents. This would reduce inbound support tickets during outages by approximately 30% based on industry benchmarks.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "feature",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-04-01T15:06:55.883356+00:00",
+    "updated_at": "2026-04-02T04:50:19.763618+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "blocked",
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0181",
+    "title": "Team member removal does not revoke shared links",
+    "description": "When a user account is deactivated via the admin panel, their existing API keys remain functional for up to 24 hours. The key revocation runs as a background job that only executes once daily at midnight UTC. This creates a security window for terminated employees.",
+    "status": "in_progress",
+    "priority": "critical",
+    "category": "access",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-21T02:10:18.846028+00:00",
+    "updated_at": "2026-03-27T04:31:34.752550+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0182",
+    "title": "Two-factor bypass when switching auth providers",
+    "description": "When the identity provider session expires, users entering the SSO login flow get caught in an infinite redirect loop between our app and the IdP. The browser eventually shows 'too many redirects' after approximately 15 cycles. Affects all SSO-configured organizations.",
+    "status": "closed",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": "Diana Osei",
+    "created_at": "2026-03-11T15:18:22.016468+00:00",
+    "updated_at": "2026-03-23T15:34:01.101701+00:00",
+    "created_by": "Ethan Kim",
+    "tags": [
+      "customer-reported",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0183",
+    "title": "API p99 latency spiked to 3.2s after v2.4.1 deploy",
+    "description": "Under load testing at 200 concurrent users, the application exhausts the database connection pool (max 20 connections) and subsequent requests queue for up to 30 seconds. The pool size needs to be increased and connection timeout reduced.",
+    "status": "open",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-26T23:31:38.024026+00:00",
+    "updated_at": "2026-04-02T09:36:22.597705+00:00",
+    "created_by": "Diana Osei",
+    "tags": []
+  },
+  {
+    "id": "TKT-0184",
+    "title": "Deactivated user retains API key access for 24h",
+    "description": "The OAuth token refresh flow does not validate the original scope grant. A token initially issued with read-only scope can be refreshed to request read-write scope without user consent. This was identified by an external security researcher.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-04-01T19:47:14.142785+00:00",
+    "updated_at": "2026-04-02T14:05:08.141349+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "needs-repro",
+      "customer-reported"
+    ]
+  },
+  {
+    "id": "TKT-0185",
+    "title": "Role change not reflected until manual cache clear",
+    "description": "When the identity provider session expires, users entering the SSO login flow get caught in an infinite redirect loop between our app and the IdP. The browser eventually shows 'too many redirects' after approximately 15 cycles. Affects all SSO-configured organizations.",
+    "status": "open",
+    "priority": "high",
+    "category": "access",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-04-02T20:37:39.606132+00:00",
+    "updated_at": "2026-04-03T04:51:45.920356+00:00",
+    "created_by": "Alice Chen",
+    "tags": []
+  },
+  {
+    "id": "TKT-0186",
+    "title": "GraphQL N+1 queries on ticket list with comments",
+    "description": "Thumbnail generation for uploaded images runs synchronously on the main API thread, blocking all other requests for 2-3 seconds per image. This should be offloaded to a background worker queue to prevent request handling degradation.",
+    "status": "in_progress",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-25T12:17:33.511332+00:00",
+    "updated_at": "2026-03-28T21:00:30.931952+00:00",
+    "created_by": "Diana Osei",
+    "tags": [
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0187",
+    "title": "Add custom field support for ticket metadata",
+    "description": "Ticket descriptions currently only support plain text. Support agents frequently need to include code snippets, formatted logs, and structured reproduction steps. Markdown support would significantly improve ticket readability.",
+    "status": "resolved",
+    "priority": "high",
+    "category": "feature",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-24T01:27:02.604100+00:00",
+    "updated_at": "2026-03-29T13:52:11.606780+00:00",
+    "created_by": "Bob Patel",
+    "tags": []
+  },
+  {
+    "id": "TKT-0188",
+    "title": "IP allowlist not enforced on mobile app endpoints",
+    "description": "The IP allowlist configured in organization security settings is enforced on web endpoints but not on mobile API endpoints (/api/mobile/*). A user connecting from a blocked IP can still access all data through the mobile app. Discovered during a security audit.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-23T02:45:57.546446+00:00",
+    "updated_at": "2026-03-28T08:33:11.166531+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0189",
+    "title": "Dashboard takes 12 seconds to load with 1000+ tickets",
+    "description": "Generating the monthly analytics report for accounts with over 500MB of ticket data causes the worker process to run out of memory (OOM killed). The report builder loads the entire dataset into memory. Streaming or chunked processing is needed.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "performance",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-11T12:17:11.563822+00:00",
+    "updated_at": "2026-03-16T05:57:09.414119+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "urgent",
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0190",
+    "title": "VAT calculation wrong for EU customers",
+    "description": "Customer (account #AC-4892) reports being charged $299 twice on March 5th for their annual Pro plan renewal. Stripe shows two successful charges: ch_3NkL9x and ch_3NkLBw, 4 seconds apart. The customer's card was charged $598 total. Immediate refund of duplicate charge needed.",
+    "status": "resolved",
+    "priority": "low",
+    "category": "billing",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-27T11:07:14.741804+00:00",
+    "updated_at": "2026-03-28T10:45:54.128515+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": []
+  },
+  {
+    "id": "TKT-0191",
+    "title": "WebSocket reconnect storm during rolling deploys",
+    "description": "Following the v2.4.1 deployment on March 3rd, API p99 latency increased from 800ms to 3.2 seconds. The regression correlates with the new audit logging middleware that performs a synchronous database write on every request. Moving to async logging should resolve this.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "performance",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-03-24T20:57:58.172621+00:00",
+    "updated_at": "2026-04-03T08:32:32.817069+00:00",
+    "created_by": "Ethan Kim",
+    "tags": []
+  },
+  {
+    "id": "TKT-0192",
+    "title": "Annual billing toggle shows wrong monthly price",
+    "description": "Customer was granted a 14-day trial extension via the admin panel but the billing portal still shows the original trial end date. The customer received an email confirming the extension. The mismatch is causing confusion and the customer may be charged early.",
+    "status": "open",
+    "priority": "medium",
+    "category": "billing",
+    "assigned_to": "Carlos Rivera",
+    "created_at": "2026-04-01T01:00:01.047248+00:00",
+    "updated_at": "2026-04-02T09:42:33.066379+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0193",
+    "title": "Service account tokens never expire despite policy",
+    "description": "When a team member is removed from an organization, their previously created shared links remain active. These links continue to provide access to ticket data even though the user no longer has an account. There is no mechanism to bulk-revoke links by user.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-23T04:47:37.343401+00:00",
+    "updated_at": "2026-03-25T22:06:30.441602+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0194",
+    "title": "Search results pagination skips page 3",
+    "description": "Users filling out the multi-step support request form lose all entered data when their session expires mid-process. The form does not warn about impending expiration or save draft state. This has caused significant user frustration.",
+    "status": "in_progress",
+    "priority": "low",
+    "category": "bug",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-27T01:46:04.053845+00:00",
+    "updated_at": "2026-03-28T23:10:36.177388+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "urgent",
+      "needs-repro"
+    ]
+  },
+  {
+    "id": "TKT-0195",
+    "title": "Background job queue backed up 2 hours during peak",
+    "description": "The main dashboard page takes over 12 seconds to render when the account has more than 1,000 tickets. Profiling shows the bottleneck is a non-indexed COUNT query that runs for each status category. Adding composite indexes should reduce this to under 500ms.",
+    "status": "open",
+    "priority": "high",
+    "category": "performance",
+    "assigned_to": null,
+    "created_at": "2026-03-30T17:38:31.015436+00:00",
+    "updated_at": "2026-04-03T00:26:42.779952+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "quick-win",
+      "blocked"
+    ]
+  },
+  {
+    "id": "TKT-0196",
+    "title": "Export tickets to PDF with company branding",
+    "description": "The legal team requires ticket exports in PDF format with company branding for compliance audits. Currently they screenshot the UI or copy-paste into Word documents. A native PDF export would save approximately 4 hours per monthly audit.",
+    "status": "open",
+    "priority": "critical",
+    "category": "feature",
+    "assigned_to": null,
+    "created_at": "2026-03-21T18:25:22.815359+00:00",
+    "updated_at": "2026-04-03T00:15:45.691813+00:00",
+    "created_by": "Alice Chen",
+    "tags": [
+      "needs-repro",
+      "regression"
+    ]
+  },
+  {
+    "id": "TKT-0197",
+    "title": "Team member removal does not revoke shared links",
+    "description": "When an admin changes a user's role from 'editor' to 'viewer', the change does not take effect until the user clears their browser cache or the server-side session cache expires (4 hours). During this window the user retains editor permissions.",
+    "status": "resolved",
+    "priority": "medium",
+    "category": "access",
+    "assigned_to": "Bob Patel",
+    "created_at": "2026-03-26T00:02:32.712223+00:00",
+    "updated_at": "2026-03-28T14:53:58.885259+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "needs-repro",
+      "quick-win"
+    ]
+  },
+  {
+    "id": "TKT-0198",
+    "title": "Search results pagination skips page 3",
+    "description": "When a user adds more than 50 items to their cart and proceeds to checkout, the server returns an HTTP 500 error. The checkout page shows a generic error message. This was first reported by a customer on March 12th and affects both web and mobile clients.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "bug",
+    "assigned_to": "Ethan Kim",
+    "created_at": "2026-03-23T08:56:14.995873+00:00",
+    "updated_at": "2026-03-29T15:04:46.531133+00:00",
+    "created_by": "Bob Patel",
+    "tags": [
+      "regression",
+      "urgent"
+    ]
+  },
+  {
+    "id": "TKT-0199",
+    "title": "Support Markdown in ticket descriptions",
+    "description": "The legal team requires ticket exports in PDF format with company branding for compliance audits. Currently they screenshot the UI or copy-paste into Word documents. A native PDF export would save approximately 4 hours per monthly audit.",
+    "status": "closed",
+    "priority": "medium",
+    "category": "feature",
+    "assigned_to": "Alice Chen",
+    "created_at": "2026-03-24T14:20:31.331001+00:00",
+    "updated_at": "2026-03-29T12:55:39.501499+00:00",
+    "created_by": "Carlos Rivera",
+    "tags": [
+      "needs-repro"
+    ]
+  }
+]
