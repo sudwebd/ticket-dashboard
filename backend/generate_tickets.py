@@ -10,8 +10,8 @@ TICKET_COUNT = 200
 DEVELOPERS = ["Alice Chen", "Bob Patel", "Carlos Rivera", "Diana Osei", "Ethan Kim"]
 DEVELOPER_WEIGHTS = [28, 25, 22, 15, 10]
 
-STATUSES = ["open", "in_progress", "resolved", "closed"]
-STATUS_WEIGHTS = [40, 25, 20, 15]
+STATUSES = ["open", "acknowledged", "in_progress", "waiting_on_info", "resolved", "closed"]
+STATUS_WEIGHTS = [30, 10, 20, 5, 20, 15]
 
 PRIORITIES = ["low", "medium", "high", "critical"]
 PRIORITY_WEIGHTS = [25, 40, 25, 10]
@@ -20,6 +20,15 @@ CATEGORIES = ["bug", "feature", "billing", "access", "performance"]
 CATEGORY_WEIGHTS = [20, 20, 20, 20, 20]
 
 TAGS = ["urgent", "regression", "customer-reported", "needs-repro", "blocked", "quick-win"]
+
+# Semantic tags for ticket content seeding
+CONTENT_TAGS = {
+    "bug": ["billing", "auth", "performance", "ui", "data"],
+    "feature": ["ui", "auth", "data", "performance", "billing"],
+    "billing": ["billing", "data", "ui"],
+    "access": ["auth", "ui", "data"],
+    "performance": ["performance", "data", "ui"],
+}
 
 UNASSIGNED_CHANCE_OPEN = 0.35
 UNASSIGNED_CHANCE_OTHER = 0.10
@@ -162,6 +171,17 @@ DESCRIPTIONS: dict[str, list[str]] = {
     ],
 }
 
+SAMPLE_COMMENTS = [
+    "I can reproduce this consistently on my end.",
+    "This looks related to the deployment last week.",
+    "Customer is asking for an update on this.",
+    "I've narrowed the root cause to the caching layer.",
+    "Waiting on access to the staging environment to verify.",
+    "Escalating to the infrastructure team for input.",
+    "Confirmed this is a regression from v2.4.1.",
+    "Workaround documented in the internal wiki.",
+]
+
 
 def random_created_at(status: str) -> str:
     now = datetime.now(timezone.utc)
@@ -194,7 +214,68 @@ def generate_one(index: int) -> dict:
         if random.random() < unassigned_p
         else random.choices(DEVELOPERS, weights=DEVELOPER_WEIGHTS)[0]
     )
+    # Tickets in acknowledged/in_progress/waiting_on_info should always be assigned
+    if status in ("acknowledged", "in_progress", "waiting_on_info") and assigned_to is None:
+        assigned_to = random.choices(DEVELOPERS, weights=DEVELOPER_WEIGHTS)[0]
+
     created_at = random_created_at(status)
+
+    # Pick content tags based on category
+    content_tag_pool = CONTENT_TAGS.get(category, ["data"])
+    num_tags = random.randint(1, min(3, len(content_tag_pool)))
+    content_tags = random.sample(content_tag_pool, k=num_tags)
+
+    # Also include 0-2 workflow tags
+    workflow_tags = random.sample(TAGS, k=random.randint(0, 2))
+
+    # Combine, deduplicate
+    all_tags = list(dict.fromkeys(content_tags + workflow_tags))
+
+    # Generate some comments for non-open tickets
+    comments = []
+    if status != "open" and random.random() < 0.6:
+        num_comments = random.randint(1, 3)
+        created_dt = datetime.fromisoformat(created_at)
+        for _ in range(num_comments):
+            comment_offset = random.uniform(0, (datetime.now(timezone.utc) - created_dt).total_seconds())
+            comments.append({
+                "author": random.choice(DEVELOPERS),
+                "text": random.choice(SAMPLE_COMMENTS),
+                "timestamp": (created_dt + timedelta(seconds=comment_offset)).isoformat(),
+            })
+
+    # Generate history entries
+    history = []
+    created_dt = datetime.fromisoformat(created_at)
+    history.append({
+        "action": "created",
+        "actor": random.choice(DEVELOPERS),
+        "from_status": None,
+        "to_status": "open",
+        "timestamp": created_at,
+        "notes": None,
+    })
+    if assigned_to:
+        assign_offset = random.uniform(0, max(1, (datetime.now(timezone.utc) - created_dt).total_seconds() * 0.3))
+        history.append({
+            "action": "assigned",
+            "actor": assigned_to,
+            "from_status": None,
+            "to_status": None,
+            "timestamp": (created_dt + timedelta(seconds=assign_offset)).isoformat(),
+            "notes": None,
+        })
+    if status not in ("open",):
+        status_offset = random.uniform(0, max(1, (datetime.now(timezone.utc) - created_dt).total_seconds() * 0.6))
+        history.append({
+            "action": "status_change",
+            "actor": assigned_to or "system",
+            "from_status": "open",
+            "to_status": status,
+            "timestamp": (created_dt + timedelta(seconds=status_offset)).isoformat(),
+            "notes": None,
+        })
+
     return {
         "id": f"TKT-{index:04d}",
         "title": random.choice(TITLES[category]),
@@ -206,7 +287,9 @@ def generate_one(index: int) -> dict:
         "created_at": created_at,
         "updated_at": random_updated_at(created_at),
         "created_by": random.choice(DEVELOPERS),
-        "tags": random.sample(TAGS, k=random.randint(0, 2)),
+        "tags": all_tags,
+        "comments": comments,
+        "history": history,
     }
 
 
@@ -246,6 +329,14 @@ def main():
     print("\nDeveloper load (open tickets):")
     for dev, c in sorted(dev_counts.items(), key=lambda x: x[1]):
         print(f"  {dev}: {c}")
+
+    with_comments = sum(1 for t in tickets if t["comments"])
+    print(f"\nTickets with comments: {with_comments}")
+
+    tag_counts = Counter(tag for t in tickets for tag in t["tags"])
+    print("\nTag distribution:")
+    for tag, c in sorted(tag_counts.items(), key=lambda x: -x[1]):
+        print(f"  {tag}: {c}")
 
 
 if __name__ == "__main__":

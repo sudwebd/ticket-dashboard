@@ -13,7 +13,7 @@ const CATEGORY_COLORS = {
   performance: "bg-amber-100 text-amber-800",
 }
 
-const STATUSES = ["open", "in_progress", "resolved", "closed"]
+const STATUSES = ["open", "acknowledged", "in_progress", "waiting_on_info", "resolved", "closed"]
 const DEVELOPERS = ["Alice Chen", "Bob Patel", "Carlos Rivera", "Diana Osei", "Ethan Kim"]
 
 function timeAgo(isoString) {
@@ -30,6 +30,24 @@ function timeAgo(isoString) {
   return new Date(isoString).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
 }
 
+function formatTimestamp(isoString) {
+  return new Date(isoString).toLocaleString("en-US", {
+    month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
+  })
+}
+
+const ACTION_LABELS = {
+  created: "Created",
+  assigned: "Assigned",
+  status_change: "Status changed",
+  escalated: "Escalated",
+  acknowledged: "Acknowledged",
+  commented: "Commented",
+  reopened: "Reopened",
+  transferred: "Transferred",
+  request_info: "Info requested",
+}
+
 export default function TicketDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -38,6 +56,11 @@ export default function TicketDetail() {
   const [statusSaved, setStatusSaved] = useState(false)
   const [assignee, setAssignee] = useState("")
   const [assignError, setAssignError] = useState(null)
+  const [history, setHistory] = useState([])
+  const [historyOpen, setHistoryOpen] = useState(false)
+  const [commentText, setCommentText] = useState("")
+  const [commentAuthor, setCommentAuthor] = useState(DEVELOPERS[0])
+  const [actionError, setActionError] = useState(null)
 
   const fetchTicket = () => {
     api.getTicket(id).then(t => {
@@ -46,13 +69,23 @@ export default function TicketDetail() {
     }).catch(() => setError("Failed to load ticket. Is the server running?"))
   }
 
-  useEffect(() => { fetchTicket() }, [id])
+  const fetchHistory = () => {
+    api.getTicketHistory(id).then(data => setHistory(data.history || [])).catch(() => {})
+  }
+
+  useEffect(() => { fetchTicket(); fetchHistory() }, [id])
 
   const handleStatusChange = async (newStatus) => {
-    await api.updateStatus(id, newStatus)
+    setActionError(null)
+    const res = await api.updateStatus(id, newStatus)
+    if (res?.detail?.error === "precondition_failed") {
+      setActionError(res.detail.detail)
+      return
+    }
     setStatusSaved(true)
     setTimeout(() => setStatusSaved(false), 2000)
     fetchTicket()
+    fetchHistory()
   }
 
   const handleAssign = async () => {
@@ -61,6 +94,7 @@ export default function TicketDetail() {
       setAssignError(null)
       await api.assignTicket(id, assignee)
       fetchTicket()
+      fetchHistory()
     } catch {
       setAssignError("Failed to assign ticket.")
     }
@@ -69,6 +103,48 @@ export default function TicketDetail() {
   const handleMarkResolved = async () => {
     await api.updateStatus(id, "resolved")
     navigate("/")
+  }
+
+  const handleEscalate = async () => {
+    setActionError(null)
+    const res = await api.escalateTicket(id)
+    if (res?.detail?.error === "precondition_failed") {
+      setActionError(res.detail.detail)
+      return
+    }
+    fetchTicket()
+    fetchHistory()
+  }
+
+  const handleAcknowledge = async () => {
+    setActionError(null)
+    if (!ticket.assigned_to) return
+    const res = await api.acknowledgeTicket(id, ticket.assigned_to)
+    if (res?.detail?.error === "precondition_failed") {
+      setActionError(res.detail.detail)
+      return
+    }
+    fetchTicket()
+    fetchHistory()
+  }
+
+  const handleReopen = async () => {
+    setActionError(null)
+    const res = await api.reopenTicket(id)
+    if (res?.detail?.error === "precondition_failed") {
+      setActionError(res.detail.detail)
+      return
+    }
+    fetchTicket()
+    fetchHistory()
+  }
+
+  const handleAddComment = async () => {
+    if (!commentText.trim()) return
+    await api.addComment(id, commentAuthor, commentText)
+    setCommentText("")
+    fetchTicket()
+    fetchHistory()
   }
 
   if (error) {
@@ -90,6 +166,9 @@ export default function TicketDetail() {
   }
 
   const showResolveButton = ticket.status !== "resolved" && ticket.status !== "closed"
+  const showEscalate = (ticket.status === "open" || ticket.status === "acknowledged") && ticket.priority !== "critical"
+  const showAcknowledge = !!ticket.assigned_to && (ticket.status === "open" || ticket.status === "in_progress")
+  const showReopen = ticket.status === "resolved" || ticket.status === "closed"
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -127,7 +206,7 @@ export default function TicketDetail() {
               </div>
               <div>
                 <span className="text-xs text-gray-500">Tags</span>
-                <div className="flex gap-1 mt-0.5">
+                <div className="flex gap-1 mt-0.5 flex-wrap">
                   {ticket.tags.length > 0
                     ? ticket.tags.map(tag => (
                         <span key={tag} className="rounded-full bg-gray-100 text-gray-600 px-2 py-0.5 text-xs">{tag}</span>
@@ -144,12 +223,94 @@ export default function TicketDetail() {
                 <p className="text-gray-700">{ticket.assigned_to || <span className="text-gray-400">Unassigned</span>}</p>
               </div>
             </div>
+
+            {/* Comments section */}
+            <hr className="border-gray-200" />
+            <div>
+              <h3 className="text-sm font-medium text-gray-900 mb-3">Comments</h3>
+              {ticket.comments && ticket.comments.length > 0 ? (
+                <div className="space-y-3 mb-4">
+                  {ticket.comments.map((c, i) => (
+                    <div key={i} className="bg-white border border-gray-200 rounded p-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-medium text-gray-700">{c.author}</span>
+                        <span className="text-xs text-gray-400">{formatTimestamp(c.timestamp)}</span>
+                      </div>
+                      <p className="text-sm text-gray-600">{c.text}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-400 mb-4">No comments yet.</p>
+              )}
+              <div className="flex gap-2">
+                <select
+                  className="border border-gray-300 rounded px-2 py-1.5 text-sm"
+                  value={commentAuthor}
+                  onChange={e => setCommentAuthor(e.target.value)}
+                >
+                  {DEVELOPERS.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
+                <input
+                  type="text"
+                  className="flex-1 border border-gray-300 rounded px-2 py-1.5 text-sm"
+                  placeholder="Add a comment..."
+                  value={commentText}
+                  onChange={e => setCommentText(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && handleAddComment()}
+                />
+                <button
+                  onClick={handleAddComment}
+                  disabled={!commentText.trim()}
+                  className="px-3 py-1.5 bg-gray-800 text-white text-sm rounded hover:bg-gray-900 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+
+            {/* History panel */}
+            <hr className="border-gray-200" />
+            <div>
+              <button
+                onClick={() => setHistoryOpen(!historyOpen)}
+                className="flex items-center gap-1 text-sm font-medium text-gray-900"
+              >
+                <span className={`transition-transform ${historyOpen ? "rotate-90" : ""}`}>&#9654;</span>
+                History ({history.length})
+              </button>
+              {historyOpen && (
+                <div className="mt-3 space-y-2">
+                  {history.length === 0 ? (
+                    <p className="text-sm text-gray-400">No history entries.</p>
+                  ) : (
+                    history.map((h, i) => (
+                      <div key={i} className="flex items-start gap-3 text-sm py-1.5 border-b border-gray-100 last:border-0">
+                        <span className="text-xs text-gray-400 whitespace-nowrap w-32 flex-shrink-0">{formatTimestamp(h.timestamp)}</span>
+                        <div>
+                          <span className="font-medium text-gray-700">{ACTION_LABELS[h.action] || h.action}</span>
+                          {h.actor && h.actor !== "system" && <span className="text-gray-500"> by {h.actor}</span>}
+                          {h.from_status && h.to_status && (
+                            <span className="text-gray-500"> ({h.from_status} &rarr; {h.to_status})</span>
+                          )}
+                          {h.notes && <p className="text-xs text-gray-400 mt-0.5">{h.notes}</p>}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Right panel */}
           <div className="col-span-4 space-y-5">
             <div className="bg-white rounded-lg border border-gray-200 p-4 space-y-5">
               <h3 className="text-sm font-medium text-gray-900">Actions</h3>
+
+              {actionError && (
+                <p className="text-xs text-red-600 bg-red-50 rounded p-2">{actionError}</p>
+              )}
 
               <div>
                 <div className="flex items-center gap-2">
@@ -162,7 +323,9 @@ export default function TicketDetail() {
                   onChange={e => handleStatusChange(e.target.value)}
                 >
                   {STATUSES.map(s => (
-                    <option key={s} value={s}>{s === "in_progress" ? "In Progress" : s.charAt(0).toUpperCase() + s.slice(1)}</option>
+                    <option key={s} value={s}>
+                      {s === "in_progress" ? "In Progress" : s === "waiting_on_info" ? "Waiting on Info" : s.charAt(0).toUpperCase() + s.slice(1)}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -193,31 +356,44 @@ export default function TicketDetail() {
 
               <hr className="border-gray-200" />
 
-              <div>
-                <span className="text-xs text-gray-500">Priority</span>
-                <select
-                  className="mt-1 w-full border border-gray-300 rounded px-2 py-1.5 text-sm opacity-50"
-                  value={ticket.priority}
-                  disabled
-                >
-                  {["low", "medium", "high", "critical"].map(p => (
-                    <option key={p} value={p}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>
-                  ))}
-                </select>
-                <p className="text-xs text-gray-400 mt-1">Priority update coming soon</p>
-              </div>
+              {/* Action buttons */}
+              <div className="space-y-2">
+                {showAcknowledge && (
+                  <button
+                    onClick={handleAcknowledge}
+                    className="w-full px-3 py-1.5 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700"
+                  >
+                    Acknowledge
+                  </button>
+                )}
 
-              {showResolveButton && (
-                <>
-                  <hr className="border-gray-200" />
+                {showEscalate && (
+                  <button
+                    onClick={handleEscalate}
+                    className="w-full px-3 py-1.5 bg-orange-600 text-white text-sm rounded hover:bg-orange-700"
+                  >
+                    Escalate Priority
+                  </button>
+                )}
+
+                {showReopen && (
+                  <button
+                    onClick={handleReopen}
+                    className="w-full px-3 py-1.5 bg-yellow-600 text-white text-sm rounded hover:bg-yellow-700"
+                  >
+                    Reopen
+                  </button>
+                )}
+
+                {showResolveButton && (
                   <button
                     onClick={handleMarkResolved}
-                    className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                    className="w-full text-sm text-blue-600 hover:text-blue-800 font-medium py-1.5"
                   >
                     Mark as resolved
                   </button>
-                </>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>

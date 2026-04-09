@@ -1,4 +1,4 @@
-const STATUSES = ["open", "in_progress", "resolved", "closed"]
+const STATUSES = ["open", "acknowledged", "in_progress", "waiting_on_info", "resolved", "closed"]
 const PRIORITIES = ["low", "medium", "high", "critical"]
 const CATEGORIES = ["bug", "feature", "billing", "access", "performance"]
 const DEVELOPERS = ["Alice Chen", "Bob Patel", "Carlos Rivera", "Diana Osei", "Ethan Kim"]
@@ -26,9 +26,10 @@ export default function FilterBar({ filters, setFilters }) {
         onChange={e => update("status", e.target.value)}
       >
         <option value="">All statuses</option>
-        {STATUSES.map(s => (
-          <option key={s} value={s}>{s === "in_progress" ? "In Progress" : s.charAt(0).toUpperCase() + s.slice(1)}</option>
-        ))}
+        {STATUSES.map(s => {
+          const label = { in_progress: "In Progress", waiting_on_info: "Waiting on Info" }[s] || s.charAt(0).toUpperCase() + s.slice(1)
+          return <option key={s} value={s}>{label}</option>
+        })}
       </select>
 
       <select

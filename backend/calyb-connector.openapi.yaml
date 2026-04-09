@@ -8,7 +8,7 @@ info:
 
     Authentication: Bearer token. Use key `calyb-key-002` for the Calyb
     connector or `agent-key-003` for data view agents.
-  version: 1.0.0
+  version: 2.0.0
 
 servers:
   - url: http://localhost:8000
@@ -34,7 +34,7 @@ paths:
           description: Filter by ticket status.
           schema:
             type: string
-            enum: [open, in_progress, resolved, closed]
+            enum: [open, acknowledged, in_progress, waiting_on_info, resolved, closed]
           example: open
 
         - name: priority
@@ -101,8 +101,15 @@ paths:
           description: Return only tickets whose `tags` list contains this value.
           schema:
             type: string
-            enum: [urgent, regression, customer-reported, needs-repro, blocked, quick-win]
           example: urgent
+
+        - name: age_gt
+          in: query
+          required: false
+          description: Return only tickets older than N hours (based on `created_at`).
+          schema:
+            type: integer
+          example: 48
 
       responses:
         "200":
@@ -111,24 +118,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BulkResponse"
-              examples:
-                open_critical:
-                  summary: Open critical tickets
-                  value:
-                    total: 11
-                    tickets:
-                      - id: "TKT-0012"
-                        title: "HTTP 500 on checkout when cart has 50+ items"
-                        description: "When a user adds more than 50 items..."
-                        status: open
-                        priority: critical
-                        category: bug
-                        assigned_to: "Alice Chen"
-                        created_at: "2025-03-28T14:22:10+00:00"
-                        updated_at: "2025-03-29T09:05:33+00:00"
-                        created_by: "Bob Patel"
-                        tags: ["urgent", "customer-reported"]
-
         "401":
           description: Missing or invalid bearer token.
           content:
@@ -137,13 +126,334 @@ paths:
                 $ref: "#/components/schemas/ErrorDetail"
               example:
                 detail: "Invalid API key"
-
         "422":
           description: Invalid query parameter value.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
+
+  /tickets/{ticket_id}:
+    get:
+      summary: Get single ticket
+      operationId: getTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Ticket found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "404":
+          description: Ticket not found.
+
+  /tickets/{ticket_id}/assign:
+    post:
+      summary: Assign a ticket to a developer
+      operationId: assignTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [assigned_to]
+              properties:
+                assigned_to:
+                  type: string
+                  example: "Alice Chen"
+      responses:
+        "200":
+          description: Ticket assigned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "404":
+          description: Ticket not found.
+
+  /tickets/{ticket_id}/transfer:
+    post:
+      summary: Transfer a ticket to a different developer
+      operationId: transferTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [developer, reason]
+              properties:
+                developer:
+                  type: string
+                  example: "Bob Patel"
+                reason:
+                  type: string
+                  example: "Original assignee on leave"
+      responses:
+        "200":
+          description: Ticket transferred.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          description: Precondition failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PreconditionError"
+        "422":
+          description: Missing required reason field.
+
+  /tickets/{ticket_id}/escalate:
+    post:
+      summary: Escalate ticket priority by one level
+      operationId: escalateTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Ticket escalated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          description: Precondition failed (invalid status or already critical).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PreconditionError"
+
+  /tickets/{ticket_id}/acknowledge:
+    post:
+      summary: Developer acknowledges a ticket
+      operationId: acknowledgeTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [developer]
+              properties:
+                developer:
+                  type: string
+                  example: "Alice Chen"
+      responses:
+        "200":
+          description: Ticket acknowledged.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          description: Precondition failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PreconditionError"
+
+  /tickets/{ticket_id}/comment:
+    post:
+      summary: Add a comment to a ticket
+      operationId: addComment
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [author, text]
+              properties:
+                author:
+                  type: string
+                  example: "Alice Chen"
+                text:
+                  type: string
+                  example: "I can reproduce this on staging."
+      responses:
+        "200":
+          description: Comment added.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+
+  /tickets/{ticket_id}/reopen:
+    post:
+      summary: Reopen a resolved, closed, or waiting_on_info ticket
+      operationId: reopenTicket
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: Ticket reopened. Assignee cleared, status set to open.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          description: Precondition failed (invalid source status).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PreconditionError"
+
+  /tickets/{ticket_id}/request-info:
+    post:
+      summary: Set ticket to waiting_on_info state
+      operationId: requestInfo
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [note]
+              properties:
+                note:
+                  type: string
+                  example: "Need customer to confirm their browser version."
+      responses:
+        "200":
+          description: Ticket set to waiting_on_info.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          description: Precondition failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PreconditionError"
+
+  /tickets/bulk-assign:
+    post:
+      summary: Assign multiple tickets to a single developer
+      operationId: bulkAssign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ticket_ids, developer]
+              properties:
+                ticket_ids:
+                  type: array
+                  items:
+                    type: string
+                  example: ["TKT-0001", "TKT-0002"]
+                developer:
+                  type: string
+                  example: "Alice Chen"
+      responses:
+        "200":
+          description: Bulk assignment result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assigned:
+                    type: array
+                    items:
+                      type: string
+                  skipped:
+                    type: array
+                    items:
+                      type: string
+                  developer:
+                    type: string
+
+  /tickets/{ticket_id}/history:
+    get:
+      summary: Get full audit log for a ticket
+      operationId: getTicketHistory
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+      responses:
+        "200":
+          description: History entries returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticket_id:
+                    type: string
+                  history:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/HistoryEntry"
+
+  /developers:
+    get:
+      summary: List all developers with open ticket count and specialisations
+      operationId: getDevelopers
+      responses:
+        "200":
+          description: Developer list returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  developers:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Developer"
+
+  /tickets/{ticket_id}/status:
+    post:
+      summary: Update ticket status (state-machine enforced)
+      operationId: updateTicketStatus
+      parameters:
+        - $ref: "#/components/parameters/TicketId"
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [open, acknowledged, in_progress, waiting_on_info, resolved, closed]
+      responses:
+        "200":
+          description: Status updated.
+        "400":
+          description: Invalid transition.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PreconditionError"
+
+  /calyb/planner-test:
+    post:
+      summary: Planner test harness endpoint
+      description: >
+        Test-only endpoint for validating planner accuracy. Accepts a plan
+        and returns evaluation results.
+      operationId: plannerTest
+      x-test-only: true
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Test results returned.
 
   /health:
     get:
@@ -167,6 +477,14 @@ paths:
                     example: 200
                 required: [status, tickets_loaded]
 
+  /summary:
+    get:
+      summary: Dashboard summary statistics
+      operationId: getSummary
+      responses:
+        "200":
+          description: Summary statistics returned.
+
 components:
   securitySchemes:
     BearerAuth:
@@ -175,8 +493,18 @@ components:
       description: >
         Dummy API keys for testing:
         - `calyb-key-002` — Calyb Connector (reader)
-        - `agent-key-003` — Data View Agent (reader)
+        - `agent-key-003` — Data View Agent (agent — read + write + planner-test)
         - `dashboard-key-001` — Frontend Dashboard (admin, not for connector use)
+
+  parameters:
+    TicketId:
+      name: ticket_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^TKT-\\d{4}$"
+      example: "TKT-0042"
 
   schemas:
     Ticket:
@@ -196,20 +524,17 @@ components:
       properties:
         id:
           type: string
-          description: Unique ticket identifier.
           pattern: "^TKT-\\d{4}$"
           example: "TKT-0042"
         title:
           type: string
-          description: Short summary of the issue.
           example: "HTTP 500 on checkout when cart has 50+ items"
         description:
           type: string
-          description: Full description — 3-4 sentences of detail including repro steps, context, or impact.
-          example: "When a user adds more than 50 items to their cart and proceeds to checkout..."
+          example: "When a user adds more than 50 items to their cart..."
         status:
           type: string
-          enum: [open, in_progress, resolved, closed]
+          enum: [open, acknowledged, in_progress, waiting_on_info, resolved, closed]
           example: open
         priority:
           type: string
@@ -221,29 +546,79 @@ components:
           example: bug
         assigned_to:
           type: ["string", "null"]
-          description: Developer name, or null if unassigned.
           example: "Alice Chen"
         created_at:
           type: string
           format: date-time
-          description: ISO 8601 creation timestamp.
-          example: "2025-03-28T14:22:10.432100+00:00"
         updated_at:
           type: string
           format: date-time
-          description: ISO 8601 last-updated timestamp. Always >= created_at.
-          example: "2025-03-29T09:05:33.812400+00:00"
         created_by:
           type: string
-          description: Developer name of the ticket creator.
           example: "Bob Patel"
         tags:
           type: array
           items:
             type: string
-            enum: [urgent, regression, customer-reported, needs-repro, blocked, quick-win]
-          description: Zero to two tags per ticket.
-          example: ["urgent", "customer-reported"]
+          example: ["urgent", "auth"]
+        comments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Comment"
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/HistoryEntry"
+
+    Comment:
+      type: object
+      required: [author, text, timestamp]
+      properties:
+        author:
+          type: string
+          example: "Alice Chen"
+        text:
+          type: string
+          example: "I can reproduce this on staging."
+        timestamp:
+          type: string
+          format: date-time
+
+    HistoryEntry:
+      type: object
+      required: [action, actor, timestamp]
+      properties:
+        action:
+          type: string
+          example: "status_change"
+        actor:
+          type: string
+          example: "Alice Chen"
+        from_status:
+          type: ["string", "null"]
+        to_status:
+          type: ["string", "null"]
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          type: ["string", "null"]
+
+    Developer:
+      type: object
+      required: [name, open_ticket_count, specialisations]
+      properties:
+        name:
+          type: string
+          example: "Alice Chen"
+        open_ticket_count:
+          type: integer
+          example: 12
+        specialisations:
+          type: array
+          items:
+            type: string
+          example: ["backend", "auth"]
 
     BulkResponse:
       type: object
@@ -251,12 +626,25 @@ components:
       properties:
         total:
           type: integer
-          description: Number of tickets in this response (equals the filtered count — no pagination).
           example: 11
         tickets:
           type: array
           items:
             $ref: "#/components/schemas/Ticket"
+
+    PreconditionError:
+      type: object
+      required: [error, reason, detail]
+      properties:
+        error:
+          type: string
+          example: "precondition_failed"
+        reason:
+          type: string
+          example: "invalid_transition"
+        detail:
+          type: string
+          example: "Cannot transition from 'closed' to 'in_progress'."
 
     ErrorDetail:
       type: object
@@ -284,10 +672,7 @@ components:
             oneOf:
               - type: string
               - type: integer
-          example: ["query", "status"]
         msg:
           type: string
-          example: "Input should be 'open', 'in_progress', 'resolved' or 'closed'"
         type:
           type: string
-          example: "enum"

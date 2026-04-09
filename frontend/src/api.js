@@ -5,6 +5,8 @@ const headers = {
   "Authorization": `Bearer ${API_KEY}`,
 }
 
+const jsonHeaders = { ...headers, "Content-Type": "application/json" }
+
 export const api = {
   getTicketsPage: (params = {}) => {
     const qs = new URLSearchParams(
@@ -19,7 +21,7 @@ export const api = {
 
   assignTicket: (id, name) => fetch(`${BASE}/tickets/${id}/assign`, {
     method: "POST",
-    headers: { ...headers, "Content-Type": "application/json" },
+    headers: jsonHeaders,
     body: JSON.stringify({ assigned_to: name }),
   }).then(r => r.json()),
 
@@ -27,4 +29,28 @@ export const api = {
     method: "POST",
     headers,
   }).then(r => r.json()),
+
+  escalateTicket: (id) => fetch(`${BASE}/tickets/${id}/escalate`, {
+    method: "POST",
+    headers,
+  }).then(r => r.json()),
+
+  acknowledgeTicket: (id, developer) => fetch(`${BASE}/tickets/${id}/acknowledge`, {
+    method: "POST",
+    headers: jsonHeaders,
+    body: JSON.stringify({ developer }),
+  }).then(r => r.json()),
+
+  addComment: (id, author, text) => fetch(`${BASE}/tickets/${id}/comment`, {
+    method: "POST",
+    headers: jsonHeaders,
+    body: JSON.stringify({ author, text }),
+  }).then(r => r.json()),
+
+  reopenTicket: (id) => fetch(`${BASE}/tickets/${id}/reopen`, {
+    method: "POST",
+    headers,
+  }).then(r => r.json()),
+
+  getTicketHistory: (id) => fetch(`${BASE}/tickets/${id}/history`, { headers }).then(r => r.json()),
 }
